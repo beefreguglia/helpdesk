@@ -1,8 +1,8 @@
-import { Icon } from "@/components/icon";
-import { Text } from "@/components/text";
+import { ActiveTag } from "@/components/active-tag";
 import { Button } from "@/components/button";
+import { Icon } from "@/components/icon";
 import { TableBodyItem } from "@/components/table";
-import { StatusTag } from "@/components/status-tag";
+import { Text } from "@/components/text";
 import { ServiceEditDialogButton } from "../service-edit-dialog-button";
 
 export function ServicesTableItem() {
@@ -18,8 +18,11 @@ export function ServicesTableItem() {
 			<TableBodyItem>
 				<Text variant="text-sm">R$ 150,00</Text>
 			</TableBodyItem>
-			<TableBodyItem>
-				<StatusTag variant="info" />
+			<TableBodyItem className="hidden md:table-cell">
+				<ActiveTag active={false} />
+			</TableBodyItem>
+			<TableBodyItem className="md:hidden">
+				<ActiveTag active={false} onlyIcon />
 			</TableBodyItem>
 			<TableBodyItem>
 				<div className="flex items-center gap-2">

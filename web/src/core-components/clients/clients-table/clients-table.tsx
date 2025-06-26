@@ -4,9 +4,12 @@ import {
 	TableHeaderItem,
 	TableRoot,
 } from "@/components/table";
+import { useClients } from "@/hooks/use-clients";
 import { ClientsTableItem } from "./clients-table-item";
 
 export function ClientsTable() {
+	const { clients } = useClients();
+
 	return (
 		<TableRoot>
 			<TableHeader>
@@ -15,7 +18,9 @@ export function ClientsTable() {
 				<TableHeaderItem className="w-24" />
 			</TableHeader>
 			<TableBody>
-				<ClientsTableItem />
+				{clients.map(({ email, id, name }) => (
+					<ClientsTableItem email={email} id={id} name={name} key={id} />
+				))}
 			</TableBody>
 		</TableRoot>
 	);

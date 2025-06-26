@@ -1,6 +1,7 @@
 type Technician = {
-	email: string
-	name: string
-	password: string
-	availability: string[]
+	id: string;
+	email: string;
+	name: string;
+	password: string;
+	availability: string[];
 };

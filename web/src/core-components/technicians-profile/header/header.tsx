@@ -1,10 +1,39 @@
+import { useParams } from "react-router";
+
 import { BackButton } from "@/components/back-button";
 import { Button } from "@/components/button";
 import { Text } from "@/components/text";
 import { useTechnician } from "@/hooks/use-technician";
 
 export function Header() {
-	const { saveTechnician, isTechnicianLoading } = useTechnician();
+	const { id } = useParams<{ id?: string }>();
+
+	const {
+		createTechnician,
+		updateTechnician,
+		isLoading,
+		name,
+		email,
+		password,
+		availability,
+	} = useTechnician();
+
+	async function handleSaveTechnician() {
+		if (id) {
+			await updateTechnician(id, {
+				name,
+				email,
+				availability,
+			});
+		} else {
+			await createTechnician({
+				name,
+				email,
+				password,
+				availability,
+			});
+		}
+	}
 
 	return (
 		<header>
@@ -24,8 +53,8 @@ export function Header() {
 					</Button>
 					<Button
 						className="flex items-center gap-2 w-full"
-						onClick={saveTechnician}
-						isLoading={isTechnicianLoading}
+						onClick={handleSaveTechnician}
+						isLoading={isLoading}
 					>
 						<Text variant="text-sm-bold">Salvar</Text>
 					</Button>

@@ -1,13 +1,15 @@
 import {
 	TableBody,
+	TableHeader,
 	TableHeaderItem,
 	TableRoot,
-	TableHeader,
 } from "@/components/table";
-
+import { useTechnicians } from "@/hooks/use-technicians";
 import { TechniciansTableItem } from "./technicians-table-item";
 
 export function TechniciansTable() {
+	const { technicians } = useTechnicians();
+
 	return (
 		<TableRoot>
 			<TableHeader>
@@ -21,7 +23,15 @@ export function TechniciansTable() {
 				<TableHeaderItem className="w-16" />
 			</TableHeader>
 			<TableBody>
-				<TechniciansTableItem />
+				{technicians.map(({ availability, email, id, name }) => (
+					<TechniciansTableItem
+						key={id}
+						id={id}
+						email={email}
+						name={name}
+						availability={availability}
+					/>
+				))}
 			</TableBody>
 		</TableRoot>
 	);
