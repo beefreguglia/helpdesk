@@ -11,4 +11,22 @@ techniciansRoutes.post(
   techniciansController.create,
 );
 
+techniciansRoutes.get(
+  '/',
+  verifyUserAuthorization(['ADMIN']),
+  techniciansController.index,
+);
+
+techniciansRoutes.get(
+  '/:id',
+  verifyUserAuthorization(['ADMIN']),
+  techniciansController.show,
+);
+
+techniciansRoutes.put(
+  '/:id',
+  verifyUserAuthorization(['ADMIN']),
+  techniciansController.update,
+);
+
 export { techniciansRoutes };

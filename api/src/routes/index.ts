@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import { usersRoutes } from './users-routes';
+
+import { ensureAuthenticated } from '@/middlewares/ensure-authenticated';
+import { clientsRoutes } from './clients-routes';
 import { sessionsRoutes } from './sessions-routes';
 import { techniciansRoutes } from './technicians-routes';
-import { ensureAuthenticated } from '@/middlewares/ensure-authenticated';
+import { usersRoutes } from './users-routes';
 
 const routes = Router();
 
@@ -13,5 +15,6 @@ routes.use('/sessions', sessionsRoutes);
 // Private routes
 routes.use(ensureAuthenticated);
 routes.use('/technicians', techniciansRoutes);
+routes.use('/clients', clientsRoutes);
 
 export { routes };

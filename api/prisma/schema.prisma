@@ -52,8 +52,7 @@ model Technician {
 
 model Service {
   id           String        @id @default(uuid())
-  name         String
-  description  String?
+  title        String
   price        Decimal
   isActive     Boolean       @default(true) @map("is_active")
   callServices CallService[]
