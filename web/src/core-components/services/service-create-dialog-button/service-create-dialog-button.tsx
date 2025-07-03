@@ -1,14 +1,17 @@
 import { DialogClose, DialogTitle } from "@radix-ui/react-dialog";
 
-import { Icon } from "@/components/icon";
-import { Text } from "@/components/text";
 import { Button } from "@/components/button";
 import { DialogContent, DialogRoot, DialogTrigger } from "@/components/dialog";
+import { Icon } from "@/components/icon";
+import { Text } from "@/components/text";
+import { useState } from "react";
 import { ServiceForm } from "../service-form";
 
 export function ServiceCreateDialogButton() {
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+
 	return (
-		<DialogRoot>
+		<DialogRoot onOpenChange={setIsDialogOpen} open={isDialogOpen}>
 			<DialogTrigger asChild>
 				<div>
 					<Button className="hidden md:flex items-center gap-2">
@@ -33,10 +36,7 @@ export function ServiceCreateDialogButton() {
 						</Button>
 					</DialogClose>
 				</header>
-				<ServiceForm />
-				<footer className="px-6 py-5">
-					<Button className="w-full">Salvar</Button>
-				</footer>
+				<ServiceForm handleClose={() => setIsDialogOpen(false)} />
 			</DialogContent>
 		</DialogRoot>
 	);

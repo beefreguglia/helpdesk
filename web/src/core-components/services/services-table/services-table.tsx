@@ -4,9 +4,12 @@ import {
 	TableHeaderItem,
 	TableRoot,
 } from "@/components/table";
+import { useServices } from "@/hooks/use-services";
 import { ServicesTableItem } from "./services-table-item";
 
 export function ServicesTable() {
+	const { services } = useServices();
+
 	return (
 		<TableRoot>
 			<TableHeader>
@@ -16,7 +19,15 @@ export function ServicesTable() {
 				<TableHeaderItem className="w-24 md:w-38" />
 			</TableHeader>
 			<TableBody>
-				<ServicesTableItem />
+				{services.map(({ id, isActive, price, title }) => (
+					<ServicesTableItem
+						key={id}
+						id={id}
+						isActive={isActive}
+						price={price}
+						title={title}
+					/>
+				))}
 			</TableBody>
 		</TableRoot>
 	);

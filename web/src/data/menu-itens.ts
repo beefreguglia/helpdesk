@@ -10,13 +10,6 @@ export interface MenuItem {
 
 export const menuItems: MenuItem[] = [
 	{
-		id: "calls",
-		title: "Chamados",
-		iconName: "ClipboardList",
-		userRoles: ["ADMIN"],
-		route: "/",
-	},
-	{
 		id: "technicians",
 		title: "Técnicos",
 		iconName: "Users",
@@ -38,24 +31,24 @@ export const menuItems: MenuItem[] = [
 		route: "/services",
 	},
 	{
+		id: "calls",
+		title: "Chamados",
+		iconName: "ClipboardList",
+		userRoles: ["ADMIN", "CLIENT"],
+		route: "/calls",
+	},
+	{
 		id: "technician-calls",
 		title: "Meus chamados",
 		iconName: "ClipboardList",
 		userRoles: ["TECHNICIAN"],
-		route: "/",
+		route: "/calls",
 	},
 	{
-		id: "client-calls",
-		title: "Meus chamados",
-		iconName: "ClipboardList",
-		userRoles: ["CLIENT"],
-		route: "/",
-	},
-	{
-		id: "client-calls",
+		id: "create-call",
 		title: "Criar chamados",
 		iconName: "Plus",
 		userRoles: ["CLIENT"],
-		route: "/",
+		route: "/create-call",
 	},
 ];

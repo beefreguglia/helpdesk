@@ -1,7 +1,7 @@
-import { useAuth } from "@/hooks/use-auth.ts";
-import { menuItems } from "@/data/menu-itens";
 import { Icon } from "@/components/icon/icon.tsx";
 import { Text } from "@/components/text/text.tsx";
+import { menuItems } from "@/data/menu-itens";
+import { useAuth } from "@/hooks/use-auth.ts";
 
 export function SidebarNavigation() {
 	const { session } = useAuth();
@@ -11,11 +11,8 @@ export function SidebarNavigation() {
 	};
 
 	const isMenuItemActive = (route: string) => {
-		if (route === "/") {
-			return location.pathname === route;
-		}
-
-		return location.pathname.includes(route);
+		console.log(location.pathname);
+		return location.pathname.startsWith(route);
 	};
 
 	return (
