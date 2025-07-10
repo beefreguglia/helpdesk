@@ -3,6 +3,7 @@ import { Icon } from "@/components/icon";
 import { Text } from "@/components/text";
 import { useAuth } from "@/hooks/use-auth";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { ProfileDialogButton } from "./profile-dialog-button";
 
 export function SidebarFooter() {
 	const { session, remove } = useAuth();
@@ -57,10 +58,7 @@ export function SidebarFooter() {
 						</Text>
 					</DropdownMenu.Label>
 					<div className="flex flex-col gap-1 mt-4">
-						<DropdownMenu.Item className="outline-none rounded-xs px-4 py-2 flex items-center gap-3 hover:bg-gray-200 text-gray-600 cursor-pointer">
-							<Icon size="xl" iconName="CircleUser" />
-							<Text variant="text-sm">Perfil</Text>
-						</DropdownMenu.Item>
+						<ProfileDialogButton />
 						<DropdownMenu.Item
 							onClick={remove}
 							className="rounded-xs py-2 px-4 flex items-center gap-3 hover:bg-gray-200 text-feedback-danger cursor-pointer"

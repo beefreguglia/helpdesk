@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 
 import { AppLayout } from "@/layout/app-layout";
 import { CallDetails } from "@/pages/call-details";
@@ -13,6 +13,7 @@ export function AdminRoutes() {
 	return (
 		<Routes>
 			<Route path="/" element={<AppLayout />}>
+				<Route index element={<Navigate to="/calls" replace />} />
 				<Route path="/calls" element={<Calls />} />
 				<Route path="/technicians" element={<Technicians />} />
 				<Route path={"/technicians-profile"} element={<TechniciansProfile />} />

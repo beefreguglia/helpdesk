@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, createContext, useEffect, useState } from "react";
 import { api } from "../services/api";
 
 type AuthContext = {
@@ -21,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			`${LOCAL_STORAGE_KEY}:user`,
 			JSON.stringify(data.user),
 		);
+
 		localStorage.setItem(
 			`${LOCAL_STORAGE_KEY}:token`,
 			JSON.stringify(data.token),

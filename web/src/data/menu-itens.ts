@@ -10,27 +10,6 @@ export interface MenuItem {
 
 export const menuItems: MenuItem[] = [
 	{
-		id: "technicians",
-		title: "Técnicos",
-		iconName: "Users",
-		userRoles: ["ADMIN"],
-		route: "/technicians",
-	},
-	{
-		id: "clients",
-		title: "Clientes",
-		iconName: "BriefcaseBusiness",
-		userRoles: ["ADMIN"],
-		route: "/clients",
-	},
-	{
-		id: "services",
-		title: "Serviços",
-		iconName: "Wrench",
-		userRoles: ["ADMIN"],
-		route: "/services",
-	},
-	{
 		id: "calls",
 		title: "Chamados",
 		iconName: "ClipboardList",
@@ -50,5 +29,26 @@ export const menuItems: MenuItem[] = [
 		iconName: "Plus",
 		userRoles: ["CLIENT"],
 		route: "/create-call",
+	},
+	{
+		id: "technicians",
+		title: "Técnicos",
+		iconName: "Users",
+		userRoles: ["ADMIN"],
+		route: "/technicians",
+	},
+	{
+		id: "clients",
+		title: "Clientes",
+		iconName: "BriefcaseBusiness",
+		userRoles: ["ADMIN"],
+		route: "/clients",
+	},
+	{
+		id: "services",
+		title: "Serviços",
+		iconName: "Wrench",
+		userRoles: ["ADMIN"],
+		route: "/services",
 	},
 ];

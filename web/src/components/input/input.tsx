@@ -5,6 +5,7 @@ type Props = React.ComponentProps<"input"> & {
 	legend?: string;
 	helpText?: string;
 	errorText?: string;
+	endAdornment?: React.ReactNode;
 };
 
 export function Input({
@@ -13,6 +14,7 @@ export function Input({
 	helpText,
 	errorText,
 	type = "text",
+	endAdornment,
 	...rest
 }: Props) {
 	return (
@@ -28,17 +30,22 @@ export function Input({
 				</Text>
 			)}
 
-			<input
-				type={type}
-				id={id}
+			<div
 				className={`
-					w-full rounded-lg border-gray-500 py-2 
+					w-full flex items-center justify-between rounded-lg border-gray-500 py-2 
 					text-sm border-b text-gray-200 bg-transparent outline-none 
-					focus:border-blue-base placeholder:text-gray-400
+					focus-within:border-blue-base 
 					${errorText && "focus:border-feedback-danger"}
-				`}
-				{...rest}
-			/>
+					`}
+			>
+				<input
+					type={type}
+					id={id}
+					className="outline-none h-full w-full placeholder:text-gray-400"
+					{...rest}
+				/>
+				{endAdornment && endAdornment}
+			</div>
 
 			{helpText && !errorText && (
 				<Text variant="text-xs" className="text-gray-400 italic mt-1.5">

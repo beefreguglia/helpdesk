@@ -1,65 +1,65 @@
-import { z } from "zod";
-import { toast } from 'sonner';
 import { useState } from "react";
+import { toast } from "sonner";
+import { z } from "zod";
 import { ZodError } from "zod/v4";
 
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router";
-import { api } from "../../../services/api";
-import { Text } from "../../../components/text";
+import { Button } from "../../../components/button";
 import { Card } from "../../../components/card";
 import { Input } from "../../../components/input";
-import { Button } from "../../../components/button";
+import { Text } from "../../../components/text";
+import { api } from "../../../services/api";
 
- const signUpSchema = z
-    .object({
-      name: z.string().trim().min(1, "Informe o nome"),
-      email: z.string().email({ message: "E-mail inválido" }),
-      password: z.string().min(6, "Senha deve ter pelo menos 6 dígitos"),
-    })
-
+const signUpSchema = z.object({
+	name: z.string().trim().min(1, "Informe o nome"),
+	email: z.string().email({ message: "E-mail inválido" }),
+	password: z.string().min(6, "Senha deve ter pelo menos 6 dígitos"),
+});
 
 export function SignupFormCard() {
 	const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 	const navigate = useNavigate();
 
 	async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+		e.preventDefault();
 
-    try {
-      setIsLoading(true);
+		try {
+			setIsLoading(true);
 
-      const data = signUpSchema.parse({
-        name,
-        email,
-        password,
-      });
+			const data = signUpSchema.parse({
+				name,
+				email,
+				password,
+			});
 
-      await api.post("/users", data);
+			await api.post("/users", data);
 
-			toast.success("Cadastro realizado com sucesso! Faça login para continuar.");
+			toast.success(
+				"Cadastro realizado com sucesso! Faça login para continuar.",
+			);
 
 			navigate("/");
-    } catch (error) {
-      console.log(error);
+		} catch (error) {
+			console.log(error);
 
-      if (error instanceof ZodError) {
-        return toast.error(error.issues[0].message);
-      }
+			if (error instanceof ZodError) {
+				return toast.error(error.issues[0].message);
+			}
 
-      if (error instanceof AxiosError) {
-        return toast.error(error.response?.data.message);
-      }
+			if (error instanceof AxiosError) {
+				return toast.error(error.response?.data.message);
+			}
 
-      toast.error("Não foi possível finalizar o cadastro!");
-    } finally {
-      setIsLoading(false);
-    }
-  }
+			toast.error("Não foi possível finalizar o cadastro!");
+		} finally {
+			setIsLoading(false);
+		}
+	}
 
 	return (
 		<Card size="md" className="w-full mt-6 mb-3 md:mt-10 flex flex-col gap-10">
@@ -71,7 +71,11 @@ export function SignupFormCard() {
 					Informe seu nome, e-mail e senha
 				</Text>
 			</div>
-			<form id="signup-form" className=" flex flex-col gap-4" onSubmit={onSubmit}>
+			<form
+				id="signup-form"
+				className=" flex flex-col gap-4"
+				onSubmit={onSubmit}
+			>
 				<Input
 					id="name"
 					name="name"
@@ -100,7 +104,9 @@ export function SignupFormCard() {
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 			</form>
-			<Button type="submit" isLoading={isLoading} form="signup-form">Cadastrar</Button>
+			<Button type="submit" isLoading={isLoading} form="signup-form">
+				Cadastrar
+			</Button>
 		</Card>
 	);
 }
