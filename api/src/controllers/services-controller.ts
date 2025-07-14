@@ -21,97 +21,108 @@ class ServicesController {
     response.status(201).json();
   }
 
-  // async index(_: Request, response: Response) {
-  //   const services = await prisma.user.findMany({
-  //     where: {
-  //       role: 'CLIENT',
-  //     },
-  //     select: {
-  //       name: true,
-  //       email: true,
-  //       id: true,
-  //     },
-  //     orderBy: {
-  //       createdAt: 'desc',
-  //     },
-  //   });
+  async index(_: Request, response: Response) {
+    const services = await prisma.service.findMany({
+      select: {
+        title: true,
+        price: true,
+        isActive: true,
+        id: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
 
-  //   response.status(200).json({
-  //     services,
-  //   });
-  // }
+    response.status(200).json({
+      services,
+    });
+  }
 
-  // async show(request: Request, response: Response) {
-  //   const paramsSchema = z.object({
-  //     id: z.string().uuid(),
-  //   });
+  async show(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
 
-  //   const { id } = paramsSchema.parse(request.params);
+    const { id } = paramsSchema.parse(request.params);
 
-  //   const client = await prisma.user.findUnique({
-  //     where: {
-  //       id,
-  //     },
-  //     select: {
-  //       email: true,
-  //       name: true,
-  //     },
-  //   });
+    const service = await prisma.service.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        title: true,
+        price: true,
+      },
+    });
 
-  //   response.status(200).json(client);
-  // }
+    response.status(200).json(service);
+  }
 
-  // async update(request: Request, response: Response) {
-  //   const paramsSchema = z.object({
-  //     id: z.string().uuid(),
-  //   });
+  async active(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
 
-  //   const bodySchema = z.object({
-  //     name: z
-  //       .string()
-  //       .trim()
-  //       .min(2, { message: 'Nome é obrigatório' })
-  //       .optional(),
-  //     email: z
-  //       .string()
-  //       .trim()
-  //       .email({ message: 'E-mail inválido' })
-  //       .toLowerCase()
-  //       .optional(),
-  //   });
+    const { id } = paramsSchema.parse(request.params);
 
-  //   const { id } = paramsSchema.parse(request.params);
+    await prisma.service.update({
+      where: {
+        id,
+      },
+      data: {
+        isActive: true,
+      },
+    });
 
-  //   const { email, name } = bodySchema.parse(request.body);
+    response.status(201).json();
+  }
 
-  //   await prisma.user.update({
-  //     where: {
-  //       id,
-  //     },
-  //     data: {
-  //       email,
-  //       name,
-  //     },
-  //   });
+  async inactive(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
 
-  //   response.status(201).json();
-  // }
+    const { id } = paramsSchema.parse(request.params);
 
-  // async delete(request: Request, response: Response) {
-  //   const paramsSchema = z.object({
-  //     id: z.string().uuid(),
-  //   });
+    await prisma.service.update({
+      where: {
+        id,
+      },
+      data: {
+        isActive: false,
+      },
+    });
 
-  //   const { id } = paramsSchema.parse(request.params);
+    response.status(201).json();
+  }
 
-  //   await prisma.user.delete({
-  //     where: {
-  //       id,
-  //     },
-  //   });
+  async update(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
 
-  //   response.status(200).json();
-  // }
+    const bodySchema = z.object({
+      title: z.string().trim().optional(),
+      price: z.number().optional(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+
+    const { price, title } = bodySchema.parse(request.body);
+
+    await prisma.service.update({
+      where: {
+        id,
+      },
+      data: {
+        price,
+        title,
+      },
+    });
+
+    response.status(200).json();
+  }
 }
 
 export { ServicesController };

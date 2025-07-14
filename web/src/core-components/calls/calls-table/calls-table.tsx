@@ -1,13 +1,16 @@
 import {
 	TableBody,
+	TableHeader,
 	TableHeaderItem,
 	TableRoot,
-	TableHeader,
 } from "@/components/table";
 
+import { useCalls } from "@/hooks/use-calls";
 import { CallsTableItem } from "./calls-table-item";
 
 export function CallsTable() {
+	const { calls } = useCalls();
+
 	return (
 		<TableRoot>
 			<TableHeader>
@@ -31,7 +34,14 @@ export function CallsTable() {
 				<TableHeaderItem className="w-16" />
 			</TableHeader>
 			<TableBody>
-				<CallsTableItem />
+				{calls.map(({ id, title, description }) => (
+					<CallsTableItem
+						key={id}
+						id={id}
+						title={title}
+						description={description}
+					/>
+				))}
 			</TableBody>
 		</TableRoot>
 	);

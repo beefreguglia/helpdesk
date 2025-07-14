@@ -2,11 +2,28 @@ import { Card } from "@/components/card";
 import { CreateCallForm } from "./create-call-form";
 import { CreateCallInformationHeader } from "./create-call-information-header";
 
-export function CreateCallInformationCard() {
+type CreateCallInformationCardProps = {
+	handleSelectService: (service: Service) => void;
+	selectedService: Service | null;
+	handleSubmit: () => void;
+	handleFinish: () => void;
+};
+
+export function CreateCallInformationCard({
+	handleSelectService,
+	selectedService,
+	handleFinish,
+	handleSubmit,
+}: CreateCallInformationCardProps) {
 	return (
 		<Card size="md" className="flex flex-col gap-3 w-full md:w-4/7">
 			<CreateCallInformationHeader />
-			<CreateCallForm />
+			<CreateCallForm
+				handleSelectService={handleSelectService}
+				selectedService={selectedService}
+				handleFinish={handleFinish}
+				handleSubmit={handleSubmit}
+			/>
 		</Card>
 	);
 }

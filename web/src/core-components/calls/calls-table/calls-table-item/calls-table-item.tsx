@@ -5,7 +5,17 @@ import { StatusTag } from "@/components/status-tag";
 import { TableBodyItem } from "@/components/table";
 import { Text } from "@/components/text";
 
-export function CallsTableItem() {
+type CallsTableItemProps = {
+	id: string;
+	title: string;
+	description: string;
+};
+
+export function CallsTableItem({
+	id,
+	title,
+	description,
+}: CallsTableItemProps) {
 	return (
 		<tr>
 			<TableBodyItem>
@@ -16,15 +26,15 @@ export function CallsTableItem() {
 			</TableBodyItem>
 			<TableBodyItem className="hidden md:table-cell">
 				<Text className="hidden md:table-cell" variant="text-xs-bold">
-					00001
+					{id}
 				</Text>
 			</TableBodyItem>
 			<TableBodyItem>
 				<Text as="p" variant="text-sm-bold">
-					Rede lenta
+					{title}
 				</Text>
 				<Text as="p" variant="text-xs">
-					Instalação de Rede
+					{description}
 				</Text>
 			</TableBodyItem>
 			<TableBodyItem className="hidden md:table-cell">
