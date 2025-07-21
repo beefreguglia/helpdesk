@@ -10,6 +10,7 @@ import { useServices } from "@/hooks/use-services";
 import { api } from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const createCallSchema = z.object({
 	title: z.string().min(1, "Título é obrigatório"),
@@ -50,6 +51,7 @@ export function CreateCallForm({
 		resolver: zodResolver(createCallSchema),
 	});
 
+	const navigate = useNavigate()
 	const onSubmit = async (data: CreateCallFormInputs) => {
 		handleLoadingSubmit();
 		try {
@@ -60,6 +62,7 @@ export function CreateCallForm({
 			});
 
 			toast.success("Chamado criado com sucesso!");
+			navigate('/')
 		} catch (error) {
 			console.error(error);
 			if (error instanceof AxiosError) {

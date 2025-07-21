@@ -17,31 +17,46 @@ export function CallsTable() {
 				<TableHeaderItem className="w-[88px] md:w-32">
 					Atualizado em
 				</TableHeaderItem>
-				<TableHeaderItem className="hidden md:table-cell w-24">
+				<TableHeaderItem className="hidden w-34 md:table-cell">
 					Id
 				</TableHeaderItem>
-				<TableHeaderItem className="w-full">Título e Serviço</TableHeaderItem>
-				<TableHeaderItem className="w-60 hidden md:table-cell">
+				<TableHeaderItem className="w-full">Título</TableHeaderItem>
+				<TableHeaderItem className="w-full">Serviço</TableHeaderItem>
+				<TableHeaderItem className="hidden w-60 md:table-cell">
 					Valor Total
 				</TableHeaderItem>
-				<TableHeaderItem className="w-64 hidden md:table-cell">
+				<TableHeaderItem className="hidden w-64 md:table-cell">
 					Cliente
 				</TableHeaderItem>
-				<TableHeaderItem className="w-64 hidden md:table-cell">
+				<TableHeaderItem className="hidden w-64 md:table-cell">
 					Técnico
 				</TableHeaderItem>
 				<TableHeaderItem className="w-16 md:w-40">Status</TableHeaderItem>
 				<TableHeaderItem className="w-16" />
 			</TableHeader>
 			<TableBody>
-				{calls.map(({ id, title, description }) => (
-					<CallsTableItem
-						key={id}
-						id={id}
-						title={title}
-						description={description}
-					/>
-				))}
+				{calls.map(
+					({
+						id,
+						title,
+						client,
+						status,
+						technician,
+						callServices,
+						updatedAt,
+					}) => (
+						<CallsTableItem
+							key={id}
+							id={id}
+							title={title}
+							client={client}
+							status={status}
+							technician={technician}
+							callService={callServices[0]}
+							updatedAt={updatedAt}
+						/>
+					),
+				)}
 			</TableBody>
 		</TableRoot>
 	);
