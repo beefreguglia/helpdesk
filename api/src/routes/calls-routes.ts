@@ -17,11 +17,11 @@ callsRoutes.get(
   callsController.index,
 );
 
-// callsRoutes.get(
-//   '/:id',
-//   verifyUserAuthorization(['ADMIN']),
-//   callsController.show,
-// );
+callsRoutes.get(
+  '/:id',
+  verifyUserAuthorization(['ADMIN', 'CLIENT']),
+  callsController.show,
+);
 
 // callsRoutes.patch(
 //   '/:id/active',

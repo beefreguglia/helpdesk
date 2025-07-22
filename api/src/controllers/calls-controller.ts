@@ -69,7 +69,6 @@ class CallsController {
           callServices: {
             create: {
               serviceId: service.id,
-              priceAtTimeOfService: service.price,
             },
           },
         },
@@ -108,10 +107,12 @@ class CallsController {
             service: {
               select: {
                 title: true,
+                price: true,
               },
             },
           },
         },
+        updatedAt: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -121,6 +122,93 @@ class CallsController {
     response.status(200).json({
       calls,
     });
+  }
+
+  async show(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+
+    const call = await prisma.call.findUnique({
+      where: {
+        id,
+      },
+
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        client: {
+          select: {
+            name: true,
+          },
+        },
+        technician: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+        callServices: {
+          select: {
+            service: {
+              select: {
+                title: true,
+                price: true,
+              },
+            },
+          },
+          orderBy: { createdAt: 'asc' },
+        },
+      },
+    });
+
+    response.status(200).json(
+      call
+        ? {
+            id: call.id,
+            title: call.title,
+            description: call.description,
+            status: call.status,
+            createdAt: call.createdAt,
+            updatedAt: call.updatedAt,
+            clientName: call.client.name,
+            technicianName: call.technician.name,
+            technicianEmail: call.technician.email,
+            services: call.callServices.map(
+              (callService) => callService.service,
+            ),
+          }
+        : null,
+    );
+  }
+
+  async createAdditionalService(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+
+    const bodySchema = z.object({
+      serviceId: z.string().uuid(),
+    });
+
+    const { serviceId } = bodySchema.parse(request.body);
+
+    await prisma.callService.create({
+      data: {
+        callId: id,
+        serviceId,
+      },
+    });
+
+    response.status(201);
   }
 }
 
