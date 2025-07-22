@@ -1,20 +1,34 @@
 import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { Text } from "@/components/text";
+import { formatCurrencyToBRL } from "@/utils/format-to-currency";
 
-export function TechnicianCard() {
+type TechnicianCardProps = {
+	technicianName: string;
+	technicianEmail: string;
+	services: { title: string; price: number }[];
+};
+
+export function TechnicianCard({
+	technicianEmail,
+	technicianName,
+	services,
+}: TechnicianCardProps) {
+	const [initialService, ...additionalServices] = services;
+	const total = services.reduce((sum, item) => sum + item.price, 0);
+
 	return (
-		<Card size="md" className="w-full md:w-3/7 h-fit">
+		<Card size="md" className="h-fit w-full md:w-3/7">
 			<div className="flex flex-col gap-2">
 				<Text as="label" variant="text-xs-bold" className="text-gray-400">
 					Técnico responsável
 				</Text>
 				<div className="flex items-center gap-2">
-					<Avatar name="Tecnico teste" />
+					<Avatar name={technicianName} />
 					<div className="flex flex-col">
-						<Text variant="text-sm">Tecnico teste</Text>
+						<Text variant="text-sm">{technicianName}</Text>
 						<Text variant="text-xs" className="text-gray-300">
-							Tecnico.teste@teste.com
+							{technicianEmail}
 						</Text>
 					</div>
 				</div>
@@ -24,32 +38,45 @@ export function TechnicianCard() {
 					<Text as="label" variant="text-xs-bold" className="text-gray-400">
 						Valores
 					</Text>
-					<div className="flex items-center justify-between w-full">
+					<div className="flex w-full items-center justify-between">
 						<Text variant="text-xs">Preço base</Text>
-						<Text variant="text-xs">R$ 200</Text>
+						<Text variant="text-xs">
+							{formatCurrencyToBRL(initialService.price)}
+						</Text>
 					</div>
 				</div>
 				<div className="mt-8 flex flex-col gap-4">
 					<div className="flex flex-col gap-2">
-						<Text as="label" variant="text-xs-bold" className="text-gray-400">
-							Adicionais
-						</Text>
-						<div className="flex items-center justify-between w-full">
-							<Text variant="text-xs">Assinatura de backup</Text>
-							<Text variant="text-xs">R$ 120,00</Text>
-						</div>
-						<div className="flex items-center justify-between w-full">
-							<Text variant="text-xs">Formatação do PC</Text>
-							<Text variant="text-xs">R$ 75,00</Text>
-						</div>
+						{additionalServices.length > 0 && (
+							<>
+								<Text
+									as="label"
+									variant="text-xs-bold"
+									className="text-gray-400"
+								>
+									Adicionais
+								</Text>
+								{additionalServices.map((additionalService) => (
+									<div
+										key={additionalService.title}
+										className="flex w-full items-center justify-between"
+									>
+										<Text variant="text-xs">{additionalService.title}</Text>
+										<Text variant="text-xs">
+											{formatCurrencyToBRL(additionalService.price)}
+										</Text>
+									</div>
+								))}
+							</>
+						)}
 						<div className="mt-8 flex flex-col gap-4">
 							<div className="flex flex-col gap-2">
-								<div className="flex items-center justify-between w-full border-t border-gray-500">
-									<Text variant="text-sm-bold" className="text-gray-300 mt-3">
+								<div className="flex w-full items-center justify-between border-gray-500 border-t">
+									<Text variant="text-sm-bold" className="mt-3 text-gray-300">
 										Total
 									</Text>
 									<Text variant="text-sm-bold" className="text-gray-300">
-										R$ 395,00
+										{formatCurrencyToBRL(total)}
 									</Text>
 								</div>
 							</div>

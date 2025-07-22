@@ -9,10 +9,10 @@ import {
 export function TechniciansProfile() {
 	return (
 		<TechnicianProvider>
-			<main className="bg-gray-600 h-screen flex-1 rounded-t-md md:rounded-tr-none pt-7 px-6 pb-6 overflow-auto">
+			<main className="h-screen flex-1 overflow-auto rounded-t-md bg-gray-600 px-6 pt-7 pb-6 md:rounded-tr-none">
 				<Container>
 					<Header />
-					<div className="flex flex-col gap-4 md:gap-6 md:flex-row">
+					<div className="flex flex-col gap-4 md:flex-row md:gap-6">
 						<TechnicianFormCard />
 						<AvailabilityCard />
 					</div>

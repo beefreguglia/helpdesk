@@ -1,8 +1,12 @@
 type CallStatus = "OPEN" | "IN_PROGRESS" | "CLOSED" | "LATE";
 
+type ServiceInCall = {
+	title: string;
+	price: number;
+};
+
 type CallService = {
-	service: { title: string };
-	priceAtTimeOfService: number;
+	service: ServiceInCall;
 };
 
 type Call = {
@@ -17,4 +21,17 @@ type Call = {
 		name: string;
 	};
 	callServices: CallService[];
+};
+
+type CallDetails = {
+	id: string;
+	title: string;
+	description: string;
+	status: CallStatus;
+	clientName: string;
+	technicianName: string;
+	technicianEmail: string;
+	services: ServiceInCall[];
+	createdAt: Date;
+	updatedAt: Date;
 };

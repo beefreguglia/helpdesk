@@ -1,29 +1,65 @@
+import dayjs from "dayjs";
+
 import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { StatusTag } from "@/components/status-tag";
 import { Text } from "@/components/text";
 
-export function CallCard() {
+type CallCardProps = {
+	id: string;
+	title: string;
+	description: string;
+	clientName: string;
+	status: CallStatus;
+	createdAt: Date;
+	updatedAt: Date;
+};
+
+type StatusTagVariants = "open" | "info" | "success" | "danger";
+
+const callStatusToStatusTagVariant: Record<CallStatus, StatusTagVariants> = {
+	LATE: "danger",
+	OPEN: "open",
+	IN_PROGRESS: "info",
+	CLOSED: "success",
+};
+
+function getVariantFromStatus(status: CallStatus): string {
+	const variant = callStatusToStatusTagVariant[status];
+	return variant;
+}
+
+export function CallCard({
+	id,
+	createdAt,
+	description,
+	status,
+	updatedAt,
+	title,
+	clientName,
+}: CallCardProps) {
+	const formattedCreatedAt = dayjs(createdAt).format("DD/MM/YYYY HH:mm");
+	const formattedUpdatedAt = dayjs(updatedAt).format("DD/MM/YYYY HH:mm");
+
 	return (
 		<Card size="md">
-			<div className="flex items-center justify-between w-full">
+			<div className="flex w-full items-center justify-between">
 				<Text variant="text-xs-bold" className="text-gray-300">
-					00004
+					{id}
 				</Text>
-				<StatusTag />
+				<StatusTag
+					variant={getVariantFromStatus(status) as StatusTagVariants}
+				/>
 			</div>
 			<div className="flex flex-col gap-5">
 				<Text as="h2" variant="text-md-bold" className="mt-0.5">
-					Backup não está funcionando
+					{title}
 				</Text>
 				<div className="flex flex-col gap-0.5">
 					<Text as="label" variant="text-xs-bold" className="text-gray-400">
 						Descrição
 					</Text>
-					<Text variant="text-sm">
-						O sistema de backup automático parou de funcionar. Última execução
-						bem-sucedida foi há uma semana.
-					</Text>
+					<Text variant="text-sm">{description}</Text>
 				</div>
 
 				<div className="flex flex-col gap-0.5">
@@ -34,17 +70,17 @@ export function CallCard() {
 				</div>
 
 				<div className="flex w-full items-center gap-8">
-					<div className="flex flex-col w-full gap-0.5">
+					<div className="flex w-full flex-col gap-0.5">
 						<Text as="label" variant="text-xs-bold" className="text-gray-400">
 							Criado em
 						</Text>
-						<Text variant="text-xs">12/04/25 09:12</Text>
+						<Text variant="text-xs">{formattedCreatedAt}</Text>
 					</div>
-					<div className="flex flex-col w-full gap-0.5">
+					<div className="flex w-full flex-col gap-0.5">
 						<Text as="label" variant="text-xs-bold" className="text-gray-400">
 							Atualizado em
 						</Text>
-						<Text variant="text-xs">12/04/25 15:20</Text>
+						<Text variant="text-xs">{formattedUpdatedAt}</Text>
 					</div>
 				</div>
 
@@ -53,8 +89,8 @@ export function CallCard() {
 						Cliente
 					</Text>
 					<div className="flex items-center gap-2">
-						<Avatar name="Teste Teste" size="xs" />
-						<Text variant="text-sm">Teste Teste</Text>
+						<Avatar name={clientName} size="xs" />
+						<Text variant="text-sm">{clientName}</Text>
 					</div>
 				</div>
 			</div>

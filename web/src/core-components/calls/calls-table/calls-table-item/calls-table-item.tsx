@@ -15,7 +15,7 @@ type CallsTableItemProps = {
 	updatedAt: Date;
 	client: { name: string };
 	technician: { name: string };
-	callService: CallService;
+	services: CallService[];
 };
 
 type StatusTagVariants = "open" | "info" | "success" | "danger";
@@ -38,11 +38,14 @@ export function CallsTableItem({
 	client,
 	status,
 	technician,
-	callService,
+	services,
 	updatedAt,
 }: CallsTableItemProps) {
-	const formattedDate = dayjs(updatedAt).format("DD/MM/YYYY")
-	const formattedHour = dayjs(updatedAt).format("HH:mm")
+	const formattedDate = dayjs(updatedAt).format("DD/MM/YYYY");
+	const formattedHour = dayjs(updatedAt).format("HH:mm");
+
+	const [initialService] = services;
+	const total = services.reduce((sum, item) => sum + item.service.price, 0);
 
 	return (
 		<tr>
@@ -64,13 +67,11 @@ export function CallsTableItem({
 			</TableBodyItem>
 			<TableBodyItem>
 				<Text as="p" variant="text-sm-bold">
-					{callService.service.title}
+					{initialService.service.title}
 				</Text>
 			</TableBodyItem>
 			<TableBodyItem className="hidden md:table-cell">
-				<Text variant="text-sm">
-					{formatCurrencyToBRL(callService.priceAtTimeOfService)}
-				</Text>
+				<Text variant="text-sm">{formatCurrencyToBRL(total)}</Text>
 			</TableBodyItem>
 			<TableBodyItem className="hidden md:table-cell">
 				<div className="flex items-center gap-2">

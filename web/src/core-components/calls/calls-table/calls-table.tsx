@@ -52,7 +52,7 @@ export function CallsTable() {
 							client={client}
 							status={status}
 							technician={technician}
-							callService={callServices[0]}
+							services={callServices}
 							updatedAt={updatedAt}
 						/>
 					),
