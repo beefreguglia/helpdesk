@@ -1,12 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { useService } from "@/hooks/use-service";
-import { toast } from "sonner";
 
 function parseCurrency(value: string): number {
 	if (!value) return Number.NaN;
@@ -144,7 +143,7 @@ export function ServiceForm({
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="p-6 border-y border-gray-500 flex flex-col gap-4"
+			className="flex flex-col gap-4 border-gray-500 border-y p-6"
 		>
 			<Input
 				legend="Título"

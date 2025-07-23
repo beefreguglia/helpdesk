@@ -1,4 +1,14 @@
-import { type ReactNode, createContext, useEffect, useState } from "react";
+import { AxiosError } from "axios";
+import {
+	createContext,
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
+import type { UseFormSetError } from "react-hook-form";
+import { toast } from "sonner";
+
 import { api } from "../services/api";
 
 type AuthContext = {
@@ -6,6 +16,15 @@ type AuthContext = {
 	save: (data: UserApiResponse) => void;
 	isLoading: boolean;
 	remove: () => void;
+	updateProfile: (
+		id: string,
+		setError: UseFormSetError<{
+			name?: string;
+			email?: string;
+		}>,
+		name?: string,
+		email?: string,
+	) => Promise<void>;
 };
 
 const LOCAL_STORAGE_KEY = "@helpdesk";
@@ -41,6 +60,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		window.location.assign("/");
 	}
 
+	const updateProfile = useCallback(
+		async (
+			id: string,
+			setError: UseFormSetError<{
+				name?: string;
+				email?: string;
+			}>,
+			name?: string,
+			email?: string,
+		) => {
+			try {
+				await api.put(`/users/${id}`, {
+					name,
+					email,
+				});
+				setSession((prevSession) =>
+					prevSession
+						? {
+								...prevSession,
+								user: {
+									...prevSession.user,
+									name: name ?? prevSession.user.name,
+									email: email ?? prevSession.user.email,
+								},
+							}
+						: null,
+				);
+				toast.success("Perfil editado com sucesso!");
+			} catch (error) {
+				console.error(error);
+				if (error instanceof AxiosError) {
+					const errorMessage =
+						error.response?.data.message ||
+						"Erro inesperado ao editar serviço.";
+					setError("root.serverError", {
+						type: "server",
+						message: errorMessage,
+					});
+				} else {
+					setError("root.serverError", {
+						type: "server",
+						message: "Erro inesperado ao editar serviço!",
+					});
+				}
+			}
+		},
+		[],
+	);
+
 	useEffect(() => {
 		function loadUser() {
 			const user = localStorage.getItem(`${LOCAL_STORAGE_KEY}:user`);
@@ -61,7 +129,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ session, save, isLoading, remove }}>
+		<AuthContext.Provider
+			value={{ session, save, isLoading, remove, updateProfile }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);
