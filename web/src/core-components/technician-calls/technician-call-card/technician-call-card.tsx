@@ -1,10 +1,10 @@
+import { useNavigate } from "react-router";
+import { Avatar } from "@/components/avatar";
+import { Button } from "@/components/button";
 import { Card } from "@/components/card";
 import { Icon } from "@/components/icon";
-import { Text } from "@/components/text";
-import { Button } from "@/components/button";
-import { Avatar } from "@/components/avatar";
 import { StatusTag } from "@/components/status-tag";
-import { useNavigate } from "react-router";
+import { Text } from "@/components/text";
 
 type TechnicianCallCardProps = {
 	id: string;
@@ -26,16 +26,16 @@ export function TechnicianCallCard({
 	const navigate = useNavigate();
 
 	function handleNavigate() {
-		navigate("/calls/id");
+		navigate(`/calls/${id}`);
 	}
 
 	return (
 		<Card
 			size="md"
-			className="max-w-96 w-full cursor-pointer"
+			className="w-full max-w-96 cursor-pointer"
 			onClick={handleNavigate}
 		>
-			<header className="flex items-end justify-between w-full">
+			<header className="flex w-full items-end justify-between">
 				<Text variant="text-xs-bold" className="text-gray-400">
 					{id}
 				</Text>
@@ -54,14 +54,14 @@ export function TechnicianCallCard({
 					{name}
 				</Text>
 				<Text variant="text-sm">{description}</Text>
-				<div className="py-4 flex items-center justify-between w-full">
+				<div className="flex w-full items-center justify-between py-4">
 					<Text>{date}</Text>
 					<Text>
 						<Text>R$</Text> {value}
 					</Text>
 				</div>
 			</main>
-			<div className="flex items-center justify-between w-full border-t border-gray-500 pt-4">
+			<div className="flex w-full items-center justify-between border-gray-500 border-t pt-4">
 				<div className="flex items-center gap-2">
 					<Avatar size="xs" name={clientName} />
 					<Text>{clientName}</Text>

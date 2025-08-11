@@ -4,16 +4,7 @@ import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { StatusTag } from "@/components/status-tag";
 import { Text } from "@/components/text";
-
-type CallCardProps = {
-	id: string;
-	title: string;
-	description: string;
-	clientName: string;
-	status: CallStatus;
-	createdAt: Date;
-	updatedAt: Date;
-};
+import { useCall } from "@/hooks/use-call";
 
 type StatusTagVariants = "open" | "info" | "success" | "danger";
 
@@ -29,15 +20,12 @@ function getVariantFromStatus(status: CallStatus): string {
 	return variant;
 }
 
-export function CallCard({
-	id,
-	createdAt,
-	description,
-	status,
-	updatedAt,
-	title,
-	clientName,
-}: CallCardProps) {
+export function CallCard() {
+	const { call } = useCall();
+
+	const { createdAt, updatedAt, clientName, description, id, status, title } =
+		call!;
+
 	const formattedCreatedAt = dayjs(createdAt).format("DD/MM/YYYY HH:mm");
 	const formattedUpdatedAt = dayjs(updatedAt).format("DD/MM/YYYY HH:mm");
 

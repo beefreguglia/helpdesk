@@ -1,13 +1,13 @@
 import { Card } from "@/components/card";
 import { Text } from "@/components/text";
+import { useCall } from "@/hooks/use-call";
 import { AdditionalInfoDialogButton } from "./additional-info-dialog-button";
 import { AdditionalItem } from "./additional-item";
 
-type AdditionalCardProps = {
-	services: { title: string; price: number }[];
-};
+export function AdditionalCard() {
+	const { call } = useCall();
+	const { services } = call!;
 
-export function AdditionalCard({ services }: AdditionalCardProps) {
 	const [_, ...additionalServices] = services;
 
 	return (

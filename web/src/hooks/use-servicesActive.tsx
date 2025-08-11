@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@/services/api";
 
-export function useServices() {
-	const queryKey = "/services";
+export function useServicesActive() {
+	const queryKey = "/services/active";
 
 	const { data, isLoading } = useQuery<Service[]>({
 		queryKey: queryKey.split("/"),

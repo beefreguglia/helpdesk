@@ -6,6 +6,7 @@ import { Icon } from "@/components/icon";
 import { StatusTag } from "@/components/status-tag";
 import { TableBodyItem } from "@/components/table";
 import { Text } from "@/components/text";
+import { useAuth } from "@/hooks/use-auth";
 import { formatCurrencyToBRL } from "@/utils/format-to-currency";
 
 type CallsTableItemProps = {
@@ -41,6 +42,7 @@ export function CallsTableItem({
 	services,
 	updatedAt,
 }: CallsTableItemProps) {
+	const { session } = useAuth();
 	const formattedDate = dayjs(updatedAt).format("DD/MM/YYYY");
 	const formattedHour = dayjs(updatedAt).format("HH:mm");
 
@@ -98,7 +100,11 @@ export function CallsTableItem({
 			</TableBodyItem>
 			<TableBodyItem>
 				<Button as="a" href={`/calls/${id}`} variant="secondary" size="icon-sm">
-					<Icon iconName="Eye" />
+					{session?.user.role === "ADMIN" ? (
+						<Icon iconName="Pen" />
+					) : (
+						<Icon iconName="Eye" />
+					)}
 				</Button>
 			</TableBodyItem>
 		</tr>

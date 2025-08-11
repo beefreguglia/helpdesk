@@ -1,5 +1,5 @@
-import { api } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
+import { api } from "@/services/api";
 
 export function useClients() {
 	const queryKey = "/clients";

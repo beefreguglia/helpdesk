@@ -11,7 +11,6 @@ export function SidebarNavigation() {
 	};
 
 	const isMenuItemActive = (route: string) => {
-		console.log(location.pathname);
 		return location.pathname.startsWith(route);
 	};
 
@@ -22,7 +21,7 @@ export function SidebarNavigation() {
 					<a
 						key={id}
 						href={route}
-						className={`flex items-center gap-3 p-3 rounded-xs bg-gray-100 text-gray-400 ${
+						className={`flex items-center gap-3 rounded-xs bg-gray-100 p-3 text-gray-400 ${
 							isMenuItemActive(route) ? "bg-blue-dark! text-gray-600!" : ""
 						}`}
 					>

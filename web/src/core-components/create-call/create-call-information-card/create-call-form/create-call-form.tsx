@@ -1,16 +1,16 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { Input } from "@/components/input";
 import { Select } from "@/components/select";
 import { TextArea } from "@/components/textarea";
-import { useServices } from "@/hooks/use-services";
+import { useServicesActive } from "@/hooks/use-servicesActive";
 import { api } from "@/services/api";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 
 const createCallSchema = z.object({
 	title: z.string().min(1, "Título é obrigatório"),
@@ -32,7 +32,7 @@ export function CreateCallForm({
 	handleFinish,
 	handleSubmit: handleLoadingSubmit,
 }: CreateCallFormProps) {
-	const { services, isLoadingServices } = useServices();
+	const { services, isLoadingServices } = useServicesActive();
 
 	function handleSelect(serviceId: string) {
 		const foundService = services.find((service) => service.id === serviceId);
@@ -51,7 +51,7 @@ export function CreateCallForm({
 		resolver: zodResolver(createCallSchema),
 	});
 
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const onSubmit = async (data: CreateCallFormInputs) => {
 		handleLoadingSubmit();
 		try {
@@ -62,7 +62,7 @@ export function CreateCallForm({
 			});
 
 			toast.success("Chamado criado com sucesso!");
-			navigate('/')
+			navigate("/");
 		} catch (error) {
 			console.error(error);
 			if (error instanceof AxiosError) {
@@ -108,7 +108,7 @@ export function CreateCallForm({
 				legend="Descrição"
 				placeholder="Digite..."
 				required
-				className="resize-y min-h-20 h-40 max-h-80"
+				className="h-40 max-h-80 min-h-20 resize-y"
 				{...register("description")}
 				errorText={errors.description?.message}
 			/>

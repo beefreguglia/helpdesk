@@ -1,19 +1,12 @@
 import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { Text } from "@/components/text";
+import { useCall } from "@/hooks/use-call";
 import { formatCurrencyToBRL } from "@/utils/format-to-currency";
 
-type TechnicianCardProps = {
-	technicianName: string;
-	technicianEmail: string;
-	services: { title: string; price: number }[];
-};
-
-export function TechnicianCard({
-	technicianEmail,
-	technicianName,
-	services,
-}: TechnicianCardProps) {
+export function TechnicianCard() {
+	const { call } = useCall();
+	const { services, technicianName, technicianEmail } = call!;
 	const [initialService, ...additionalServices] = services;
 	const total = services.reduce((sum, item) => sum + item.price, 0);
 

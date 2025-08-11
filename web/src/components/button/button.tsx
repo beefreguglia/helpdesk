@@ -1,20 +1,20 @@
-import { type VariantProps, cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
 import {
 	type ComponentProps,
+	createElement,
 	type JSX,
 	type ReactNode,
-	createElement,
 } from "react";
 
 export const buttonVariants = cva(
-	"rounded-xs flex items-center justify-center cursor-pointer transition",
+	"rounded-xs flex items-center justify-center cursor-pointer transition disabled:cursor-not-allowed disabled:opacity-70:",
 	{
 		variants: {
 			variant: {
-				primary: "bg-gray-200 text-gray-600 hover:bg-gray-100",
+				primary: "bg-gray-200 text-gray-600 not-disabled:hover:bg-gray-100",
 				secondary:
-					"text-gray-200 bg-gray-500 hover:bg-gray-400 hover:text-gray-100",
+					"text-gray-200 bg-gray-500 not-disabled:hover:bg-gray-400 not-disabled:hover:text-gray-100",
 				link: "bg-transparent text-gray-300 hover:text-gray-100 hover:bg-gray-500",
 			},
 			size: {
@@ -39,6 +39,7 @@ type ButtonProps = Omit<ComponentProps<"button">, "disabled"> &
 		className?: string;
 		children?: ReactNode;
 		isLoading?: boolean;
+		disabled?: boolean;
 	};
 
 export function Button({
@@ -48,19 +49,20 @@ export function Button({
 	variant,
 	children,
 	isLoading = false,
+	disabled = false,
 	...rest
 }: ButtonProps) {
 	return createElement(
 		as,
 		{
 			className: buttonVariants({ variant, size, className }),
-			disabled: isLoading,
+			disabled: isLoading || disabled,
 			...rest,
 		},
 		isLoading ? (
 			<div className="relative">
-				<Loader2 size={16} className="text-blue-light animate-spin" />
-				<div className="absolute top-0 left-0 w-full h-full rounded-full border-t-2 border-blue-dark animate-[spin_3s_linear_infinite]" />
+				<Loader2 size={16} className="animate-spin text-blue-light" />
+				<div className="absolute top-0 left-0 h-full w-full animate-[spin_3s_linear_infinite] rounded-full border-blue-dark border-t-2" />
 			</div>
 		) : (
 			children

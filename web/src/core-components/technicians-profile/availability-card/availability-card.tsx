@@ -38,7 +38,7 @@ export function AvailabilityCard() {
 			<div className="mt-5 flex flex-col gap-4">
 				<div>
 					<Text variant="text-xxs">Manhã</Text>
-					<div className="flex items-center gap-2 flex-wrap mt-2">
+					<div className="mt-2 flex flex-wrap items-center gap-2">
 						{MORNING_HOURS.map((hour) => (
 							<TimeTag
 								key={hour}
@@ -53,7 +53,7 @@ export function AvailabilityCard() {
 				</div>
 				<div>
 					<Text variant="text-xxs">Tarde</Text>
-					<div className="flex items-center gap-2 flex-wrap mt-2">
+					<div className="mt-2 flex flex-wrap items-center gap-2">
 						{AFTERNOON_HOURS.map((hour) => (
 							<TimeTag
 								key={hour}
@@ -68,7 +68,7 @@ export function AvailabilityCard() {
 				</div>
 				<div>
 					<Text variant="text-xxs">Noite</Text>
-					<div className="flex items-center gap-2 flex-wrap mt-2">
+					<div className="mt-2 flex flex-wrap items-center gap-2">
 						{NIGHT_HOURS.map((hour) => (
 							<TimeTag
 								key={hour}
@@ -83,7 +83,7 @@ export function AvailabilityCard() {
 				</div>
 			</div>
 			{errors.availability && (
-				<div className="flex items-center gap-1 mt-2 text-feedback-danger">
+				<div className="mt-2 flex items-center gap-1 text-feedback-danger">
 					<Icon size="md" iconName="CircleAlert" />
 					<Text variant="text-xs">{errors.availability}</Text>
 				</div>

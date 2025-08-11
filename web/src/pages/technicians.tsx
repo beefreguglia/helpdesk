@@ -5,15 +5,15 @@ import { TechniciansTable } from "@/core-components/technicians/technicians-tabl
 
 export function Technicians() {
 	return (
-		<main className="bg-gray-600 h-screen flex-1 rounded-t-md md:rounded-tr-none pt-7 px-6 pb-6">
-			<div className="flex w-full items-center gap-4 justify-between mb-6">
+		<main className="h-screen flex-1 rounded-t-md bg-gray-600 px-6 pt-7 pb-6 md:rounded-tr-none">
+			<div className="mb-6 flex w-full items-center justify-between gap-4">
 				<Text as="h1" variant="text-xl" className="text-blue-dark">
 					Técnicos
 				</Text>
 				<Button
 					as="a"
 					href="/technicians-profile"
-					className="hidden md:flex items-center gap-2"
+					className="hidden items-center gap-2 md:flex"
 				>
 					<Icon iconName="Plus" />
 					<Text variant="text-sm">Novo</Text>
@@ -22,7 +22,7 @@ export function Technicians() {
 					as="a"
 					href="/technicians-profile"
 					size="icon-md"
-					className="flex md:hidden items-center gap-2"
+					className="flex items-center gap-2 md:hidden"
 				>
 					<Icon iconName="Plus" />
 				</Button>

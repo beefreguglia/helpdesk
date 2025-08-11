@@ -14,7 +14,7 @@ export function CreateCallResumeCard({
 	isSubmitting,
 }: CreateCallResumeCardProps) {
 	return (
-		<Card size="md" className="flex flex-col gap-6 h-fit w-full md:w-3/7">
+		<Card size="md" className="flex h-fit w-full flex-col gap-6 md:w-3/7">
 			<CreateCallResumeHeader />
 			<div className="flex flex-col gap-0.5">
 				<Text variant="text-xs-bold" className="text-gray-400">

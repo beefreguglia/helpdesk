@@ -1,15 +1,16 @@
-import { api } from "@/services/api";
 import { AxiosError } from "axios";
 import {
+	createContext,
 	type Dispatch,
 	type ReactNode,
 	type SetStateAction,
-	createContext,
 	useState,
 } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { ZodError, z } from "zod";
+
+import { api } from "@/services/api";
 
 type TechnicianContextType = {
 	name: string;
@@ -70,7 +71,12 @@ export function TechnicianProvider({ children }: { children: ReactNode }) {
 	const [name, setName] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
-	const [availability, setAvailability] = useState<string[]>([]);
+	const [availability, setAvailability] = useState<string[]>([
+		"08:00",
+		"12:00",
+		"14:00",
+		"18:00",
+	]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [errors, setErrors] = useState<FieldErrors>({});

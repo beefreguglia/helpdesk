@@ -13,6 +13,7 @@ type Call = {
 	id: string;
 	title: string;
 	status: CallStatus;
+	description: string;
 	updatedAt: Date;
 	client: {
 		name: string;

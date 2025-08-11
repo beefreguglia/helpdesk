@@ -58,7 +58,7 @@ export function TechnicianFormCard() {
 		return (
 			<Card
 				size="md"
-				className="w-full md:w-2/5 flex items-center justify-center min-h-[200px]"
+				className="flex min-h-[200px] w-full items-center justify-center md:w-2/5"
 			>
 				<Text variant="text-md-bold">Carregando informações do técnico...</Text>
 			</Card>
@@ -69,7 +69,7 @@ export function TechnicianFormCard() {
 		return (
 			<Card
 				size="md"
-				className="w-full md:w-2/5 flex flex-col items-center justify-center min-h-[200px]"
+				className="flex min-h-[200px] w-full flex-col items-center justify-center md:w-2/5"
 			>
 				<Text variant="text-sm" className="text-red-500">
 					Erro ao carregar dados: {error}

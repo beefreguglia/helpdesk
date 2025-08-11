@@ -1,10 +1,9 @@
+import { AxiosError } from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 import { ZodError } from "zod/v4";
-
-import { AxiosError } from "axios";
-import { useNavigate } from "react-router";
 import { Button } from "../../../components/button";
 import { Card } from "../../../components/card";
 import { Input } from "../../../components/input";
@@ -62,7 +61,7 @@ export function SignupFormCard() {
 	}
 
 	return (
-		<Card size="md" className="w-full mt-6 mb-3 md:mt-10 flex flex-col gap-10">
+		<Card size="md" className="mt-6 mb-3 flex w-full flex-col gap-10 md:mt-10">
 			<div className="flex flex-col gap-0.5">
 				<Text variant="text-lg" as="h1">
 					Crie sua conta

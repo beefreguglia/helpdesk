@@ -1,0 +1,125 @@
+# HelpDesk
+
+<img src="./assets/desktop.png" alt="desktop">
+
+> O HelpDesk é um sistema de gerenciamento de chamados.
+
+## 🚀 Projeto formação Full-stack Rocketseat
+
+Este projeto foi desenvolvido e aprimorado durante o curso full-stack da Rocketseat.
+
+Acesse:
+https://beefreguglia.github.io/full-stack-zingen/
+
+## 💻 Tecnologias
+
+- Express.js
+- PostgreSQL
+- Prisma
+- Jest
+- Vite
+- Docker
+- TypeScript
+- Zod
+- TailwindCSS
+- JWT
+
+## 💡Todo
+
+O Sistema terá três personas: o `admin`, o `técnico` e o `cliente`;
+
+### O **Admin**: É a pessoa responsável pela gestão do Sistema
+
+- [x] O `Admin` deve criar contas de `Técnicos`.
+- [x] O `Admin` deve listar contas de `Técnicos`.
+- [x] O `Admin` deve editar contas de `Técnicos`.
+- [x] Ao criar um Técnico seu horário de disponibilidade padrão será o horário comercial: 08:00 às 12:00 e 14:00 às 18:00
+- [x] Como deve ser o Array de horários de `Técnicos`: Ex: ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00']`
+- [ ] Ao criar uma conta de Técnico uma senha provisória será criada pelo Admin e posteriormente repassada ao Técnico que poderá alterar essa senha após o primeiro acesso à sua conta.
+- [x] O `Admin` deve criar os `Serviços` que serão executados pelos `Técnicos`.
+- [x] O `Admin` deve listar os `Serviços` que serão executados pelos `Técnicos`.
+- [x] O `Admin` deve editar os `Serviços` que serão executados pelos `Técnicos`.
+- [x] O `Admin` deve desativar os `Serviços` que serão executados pelos `Técnicos`.
+- [x] Ao desativar um Serviço, esse Serviço não deve ser listado na criação de um novo Chamado mas deve deve permanecer nos Chamados já criados.Você pode utilizar a estratégia de Soft Delete para essa funcionalidade.
+- [x] O `Admin` deve listar contas de `Clientes`.
+- [x] O `Admin` deve editar contas de `Clientes`.
+- [x] O `Admin` deve excluir contas de `Clientes`.
+- [x] Ao excluir uma conta de Cliente todos os Chamados criados por esse Cliente serão excluídos também.
+- [x] O `Admin` deve listar todos os `Chamados` e suas informações.
+- [x] O sistema deve permitir ao `Admin` editar o status dos `Chamados`.
+- [ ]  Deve existir uma conta de administrador.
+
+### O **Técnico**: É a pessoa responsável por executar os `Serviços` que foram cadastrados pelo `Admin` e foram solicitados pelos `Clientes` através de um `Chamado`
+
+- [ ] O sistema deve permitir ao `Técnico` editar o seu próprio perfil.
+- [ ] O sistema deve permitir o envio de imagem para ser usada no perfil do `Técnico`.
+- [ ] O sistema deve permitir ao `Técnico` listar todos os `Chamados` atribuídos a ele.
+- [ ] O sistema deve permitir ao `Técnico` adicionar novos Serviços ao `Chamado` se for necessário.
+- [ ] O sistema deve permitir ao `Técnico` editar o status do `Chamado`.
+- [ ] Quando o Técnico iniciar um atendimento o status do Chamado deve mudar para `'Em atendimento'
+- [ ] Quando o Técnico encerrar um atendimento o status do Chamado deve mudar para `'Encerrado'`
+- [ ] O `Técnico` não deve ter acesso a criar contas de `Clientes`.
+- [ ] O `Técnico` não deve ter acesso a alterar contas de `Clientes`.
+- [ ] O `Técnico` não deve ter acesso a excluir contas de `Clientes`.
+- [ ] O `Técnico` não deve ter acesso a criar `Chamados`.
+- [ ]  Devem existir pelo menos 3 contas de técnicos:
+    - Técnico 1: atende das 08h às 12h e das 14h às 18h.
+    - Técnico 2: atende das 10h às 14h e das 16h às 20h.
+    - Técnico 3: atende das 12h às 16h e das 18h às 22h.
+
+### O **Cliente**: É a pessoa responsável por criar um `Chamado`
+
+- [ ] O `Cliente` deve conseguir criar sua conta de `Cliente`.
+- [ ] O `Cliente` deve conseguir editar sua conta de `Cliente`.
+- [ ] O `Cliente` deve conseguir excluir sua conta de `Cliente`.
+- [ ] Ao excluir uma conta de Cliente todos os Chamados criados por esse Cliente serão excluídos também.
+- [ ] O sistema deve permitir o envio de imagem para ser usada no perfil do `Cliente`.
+- [ ] O sistema deve permitir ao `Cliente` escolher um `Técnico` disponível durante a criação do `Chamado`.
+- [ ] O sistema deve permitir ao `Cliente` visualizar um histórico com todos os `Chamados` já criados por ele.
+- [ ] Não deve ser permitido ao `Cliente` alterar outras contas que não lhe pertençam.
+- [ ] Não deve ser permitido ao `Cliente` excluir outras contas que não lhe pertençam.
+- [ ] Não deve ser permitido ao `Cliente` alterar qualquer informação de um `Chamado` após ser criado.
+
+### O **Chamado**: É a relação entre um `Cliente` e um `Técnico`
+
+- [ ] O sistema deve permitir que vários `Chamados` sejam criados por um `Cliente`.
+- [ ] O Cliente deve criar um Chamado selecionando a categoria do Serviço.
+- [ ] Todo `Chamado` deve ter pelo menos um `Serviço` selecionando, podendo ser adicionado novos `Serviços` pelo `Técnico` responsável pelo atendimento.
+- [ ] O `Chamado` deve exibir o valor do `Serviço` solicitado e o valor de cada `Serviço` adicional incluído pelo `Técnico` assim como o somatório do valor total de todos os `Serviços`.
+- [ ] Durante a criação de um `Chamado` o `Cliente` deve atribuír um `Técnico` responsável.
+- [ ] O `Chamado` pode ter seu status alterado pelo `Técnico` responsável ou pelo `Admin`.
+- [ ] O `Chamado` só pode ter status de: `Aberto`, `Em atendimento` ou `Encerrado`.
+
+### O Serviço: Categoria de atividades que serão executadas pelo `Técnico` e solicitadas pelos `Clientes`
+
+- [ ] Somente o `Admin` deve criar as informações dos Serviços.
+- [ ] Somente o `Admin` deve editar as informações dos Serviços.
+- [ ] Somente o `Admin` deve desativar as informações dos Serviços.
+- [ ] Os `Serviços` serão parte das informações de um `Chamado`.
+- [ ] Cada `Serviço` terá um valor a ser cobrado do `Cliente`
+- [ ]  Devem existir pelo menos 5 serviços a serem oferecidos:
+    - Exemplos de serviços:
+        - Instalação e atualização de softwares
+        - Instalação e atualização de hardwares
+        - Diagnóstico e remoção de vírus
+        - Suporte a impressoras
+        - Suporte a periféricos
+        - Solução de problemas de conectividade de internet
+        - Backup e recuperação de dados
+        - Otimização de desempenho do sistema operacional
+        - Configuração de VPN e Acesso Remoto
+
+### Sistema
+
+- [ ]  Os usuários deverão se autenticar para ter acesso a aplicação através da tela de login. Deve ser utilizado JWT no processo de autenticação.
+- [ ]  A aplicação deve ser responsiva de acordo com o conceito de Mobile First seguindo o layout do Figma.
+- [ ]  A sua aplicação deverá consumir a sua própria API.
+- [ ]  Os repositórios devem conter um README bem detalhado tanto no back-end quanto no front-end com link de deploy e instruções para a execução da aplicação localmente.
+- [ ]  Deve ser feito o deploy tanto do front-end quanto do back-end.
+
+## Extras
+> [ ] 🚩Nessa versão do Sistema não haverá exclusão de contas de Técnicos, mas você pode incluir como uma funcionalidade adicional ao seu projeto. Se desafie! `[OPCIONAL]`
+
+## 📝 Licença
+
+Esse projeto está sob licença MIT.

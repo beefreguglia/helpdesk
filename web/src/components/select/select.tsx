@@ -15,7 +15,7 @@ export function Select({
 	...rest
 }: Props) {
 	return (
-		<fieldset className="flex flex-col flex-1 focus-within:text-blue-base!">
+		<fieldset className="flex flex-1 flex-col focus-within:text-blue-base!">
 			{legend && (
 				<Text
 					htmlFor={id}
@@ -29,11 +29,7 @@ export function Select({
 
 			<select
 				id={id}
-				className={`
-					w-full rounded-lg border-gray-500 py-2 cursor-pointer
-					text-sm border-b text-gray-200 bg-transparent outline-none 
-					focus:border-blue-base 
-					${errorText && "focus:border-feedback-danger"}
+				className={`w-full cursor-pointer rounded-lg border-gray-500 border-b bg-transparent py-2 text-gray-200 text-sm outline-none focus:border-blue-base${errorText && "focus:border-feedback-danger"}
 				`}
 				{...rest}
 			>

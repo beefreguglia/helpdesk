@@ -4,8 +4,8 @@ import { ServicesTable } from "@/core-components/services/services-table/service
 
 export function Services() {
 	return (
-		<main className="bg-gray-600 h-screen flex-1 rounded-t-md md:rounded-tr-none pt-7 px-6 pb-6">
-			<div className="flex w-full items-center gap-4 justify-between mb-6">
+		<main className="h-screen flex-1 rounded-t-md bg-gray-600 px-6 pt-7 pb-6 md:rounded-tr-none">
+			<div className="mb-6 flex w-full items-center justify-between gap-4">
 				<Text as="h1" variant="text-xl" className="text-blue-dark">
 					Serviços
 				</Text>
