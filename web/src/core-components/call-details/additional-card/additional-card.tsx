@@ -19,8 +19,15 @@ export function AdditionalCard() {
 				<AdditionalInfoDialogButton />
 			</header>
 			<main className="mt-4">
-				{additionalServices.map((additionalService) => (
-					<AdditionalItem key={additionalService.title} />
+				{additionalServices.map(({ price, title }, i) => (
+					<AdditionalItem
+						title={title}
+						price={price}
+						key={`${title}-${
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+							i
+						}`}
+					/>
 				))}
 			</main>
 		</Card>

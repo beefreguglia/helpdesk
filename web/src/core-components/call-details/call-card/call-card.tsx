@@ -23,8 +23,16 @@ function getVariantFromStatus(status: CallStatus): string {
 export function CallCard() {
 	const { call } = useCall();
 
-	const { createdAt, updatedAt, clientName, description, id, status, title } =
-		call!;
+	const {
+		createdAt,
+		updatedAt,
+		clientName,
+		description,
+		id,
+		status,
+		title,
+		services,
+	} = call!;
 
 	const formattedCreatedAt = dayjs(createdAt).format("DD/MM/YYYY HH:mm");
 	const formattedUpdatedAt = dayjs(updatedAt).format("DD/MM/YYYY HH:mm");
@@ -54,7 +62,7 @@ export function CallCard() {
 					<Text as="label" variant="text-xs-bold" className="text-gray-400">
 						Categoria
 					</Text>
-					<Text variant="text-sm">Recuperação de Dados</Text>
+					<Text variant="text-sm">{services[0].title}</Text>
 				</div>
 
 				<div className="flex w-full items-center gap-8">

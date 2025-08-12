@@ -8,7 +8,11 @@ export function TechnicianCard() {
 	const { call } = useCall();
 	const { services, technicianName, technicianEmail } = call!;
 	const [initialService, ...additionalServices] = services;
-	const total = services.reduce((sum, item) => sum + item.price, 0);
+
+	const total = services.reduce(
+		(sum, item) => sum + (Number(item?.price) || 0),
+		0,
+	);
 
 	return (
 		<Card size="md" className="h-fit w-full md:w-3/7">
@@ -49,9 +53,9 @@ export function TechnicianCard() {
 								>
 									Adicionais
 								</Text>
-								{additionalServices.map((additionalService) => (
+								{additionalServices.map((additionalService, i) => (
 									<div
-										key={additionalService.title}
+										key={`${additionalService.title}-${i}`}
 										className="flex w-full items-center justify-between"
 									>
 										<Text variant="text-xs">{additionalService.title}</Text>
