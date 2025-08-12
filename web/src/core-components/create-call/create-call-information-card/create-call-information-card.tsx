@@ -16,7 +16,7 @@ export function CreateCallInformationCard({
 	handleSubmit,
 }: CreateCallInformationCardProps) {
 	return (
-		<Card size="md" className="flex flex-col gap-3 w-full md:w-4/7">
+		<Card size="md" className="flex w-full flex-col gap-3 md:w-4/7">
 			<CreateCallInformationHeader />
 			<CreateCallForm
 				handleSelectService={handleSelectService}

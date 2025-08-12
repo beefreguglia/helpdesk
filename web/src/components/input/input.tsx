@@ -18,7 +18,7 @@ export function Input({
 	...rest
 }: Props) {
 	return (
-		<fieldset className="flex flex-col flex-1 focus-within:text-blue-base!">
+		<fieldset className="flex flex-1 flex-col focus-within:text-blue-base!">
 			{legend && (
 				<Text
 					htmlFor={id}
@@ -31,30 +31,26 @@ export function Input({
 			)}
 
 			<div
-				className={`
-					w-full flex items-center justify-between rounded-lg border-gray-500 py-2 
-					text-sm border-b text-gray-200 bg-transparent outline-none 
-					focus-within:border-blue-base 
-					${errorText && "focus:border-feedback-danger"}
+				className={`flex w-full items-center justify-between rounded-lg border-gray-500 border-b bg-transparent py-2 text-gray-200 text-sm outline-none focus-within:border-blue-base${errorText && "focus:border-feedback-danger"}
 					`}
 			>
 				<input
 					type={type}
 					id={id}
-					className="outline-none h-full w-full placeholder:text-gray-400"
+					className="h-full w-full px-1 outline-none placeholder:text-gray-400"
 					{...rest}
 				/>
 				{endAdornment && endAdornment}
 			</div>
 
 			{helpText && !errorText && (
-				<Text variant="text-xs" className="text-gray-400 italic mt-1.5">
+				<Text variant="text-xs" className="mt-1.5 text-gray-400 italic">
 					{helpText}
 				</Text>
 			)}
 
 			{errorText && (
-				<div className="flex items-center gap-1 mt-1.5 text-feedback-danger">
+				<div className="mt-1.5 flex items-center gap-1 text-feedback-danger">
 					<Icon size="md" iconName="CircleAlert" />
 					<Text variant="text-xs">{errorText}</Text>
 				</div>

@@ -11,23 +11,43 @@ type TechnicianCallCardProps = {
 	name: string;
 	description: string;
 	date: string;
-	value: string;
+	status: CallStatus;
 	clientName: string;
+	callServices: CallService[];
 };
+
+const statusToVariant: Record<
+	CallStatus,
+	"open" | "info" | "success" | "danger"
+> = {
+	OPEN: "open",
+	IN_PROGRESS: "info",
+	CLOSED: "success",
+	LATE: "danger",
+};
+
+function getVariantName(status: CallStatus) {
+	return statusToVariant[status];
+}
 
 export function TechnicianCallCard({
 	id,
 	description,
 	name,
 	date,
-	value,
+	status,
 	clientName,
+	callServices,
 }: TechnicianCallCardProps) {
 	const navigate = useNavigate();
 
 	function handleNavigate() {
 		navigate(`/calls/${id}`);
 	}
+
+	const teste = callServices.reduce((acc, callService) => {
+		return callService.service.price + acc;
+	}, 0);
 
 	return (
 		<Card
@@ -39,15 +59,17 @@ export function TechnicianCallCard({
 				<Text variant="text-xs-bold" className="text-gray-400">
 					{id}
 				</Text>
-				<div className="flex items-center gap-1">
-					<Button variant="secondary" size="icon-sm">
-						<Icon iconName="PenLine" />
-					</Button>
-					<Button size="sm" className="flex items-center gap-2">
-						<Icon size="sm" iconName="CircleCheckBig" />
-						<Text>Encerrar</Text>
-					</Button>
-				</div>
+				{status !== "CLOSED" && (
+					<div className="flex items-center gap-1">
+						<Button variant="secondary" size="icon-sm">
+							<Icon iconName="PenLine" />
+						</Button>
+						<Button size="sm" className="flex items-center gap-2">
+							<Icon size="sm" iconName="CircleCheckBig" />
+							<Text>Encerrar</Text>
+						</Button>
+					</div>
+				)}
 			</header>
 			<main>
 				<Text as="h3" variant="text-md-bold" className="text-gray-100">
@@ -57,7 +79,7 @@ export function TechnicianCallCard({
 				<div className="flex w-full items-center justify-between py-4">
 					<Text>{date}</Text>
 					<Text>
-						<Text>R$</Text> {value}
+						<Text>R$</Text> {teste}
 					</Text>
 				</div>
 			</main>
@@ -67,7 +89,7 @@ export function TechnicianCallCard({
 					<Text>{clientName}</Text>
 				</div>
 				<div className="flex items-center">
-					<StatusTag onlyIcon variant="info" />
+					<StatusTag onlyIcon variant={getVariantName(status)} />
 				</div>
 			</div>
 		</Card>

@@ -9,7 +9,7 @@ import { z } from "zod";
 import { Input } from "@/components/input";
 import { Select } from "@/components/select";
 import { TextArea } from "@/components/textarea";
-import { useServicesActive } from "@/hooks/use-servicesActive";
+import { useServicesActive } from "@/hooks/use-service-active";
 import { api } from "@/services/api";
 
 const createCallSchema = z.object({

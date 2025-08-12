@@ -10,6 +10,8 @@ type CallContextType = {
 	getCall: (id: string) => Promise<void>;
 	finishCall: (id: string) => Promise<void>;
 	startCall: (id: string) => Promise<void>;
+	isCreatingAdditionalService: boolean;
+	createAdditionalService: (serviceId: string, callId: string) => Promise<void>;
 };
 
 export const CallContext = createContext({} as CallContextType);
@@ -17,6 +19,8 @@ export const CallContext = createContext({} as CallContextType);
 export function CallProvider({ children }: { children: ReactNode }) {
 	const [call, setCall] = useState<CallDetails | null>(null);
 	const [isCallLoading, setIsCallLoading] = useState(false);
+	const [isCreatingAdditionalService, setIsCreatingAdditionalService] =
+		useState(false);
 
 	const getCall = useCallback(async (id: string): Promise<void> => {
 		try {
@@ -70,6 +74,29 @@ export function CallProvider({ children }: { children: ReactNode }) {
 		}
 	}
 
+	async function createAdditionalService(serviceId: string, callId: string) {
+		try {
+			setIsCreatingAdditionalService(true);
+
+			await api.post(`/calls/${callId}/additional-call-service`, {
+				serviceId,
+			});
+			await getCall(callId);
+			toast.success("Serviço adicionado com sucesso!");
+		} catch (error) {
+			console.error(error);
+			if (error instanceof AxiosError) {
+				const errorMessage =
+					error.response?.data.message || "Erro inesperado ao criar serviço.";
+				toast.error(errorMessage);
+			} else {
+				toast.error("Erro inesperado ao criar serviço!");
+			}
+		} finally {
+			setIsCreatingAdditionalService(false);
+		}
+	}
+
 	return (
 		<CallContext.Provider
 			value={{
@@ -78,6 +105,8 @@ export function CallProvider({ children }: { children: ReactNode }) {
 				startCall,
 				getCall,
 				isCallLoading,
+				isCreatingAdditionalService,
+				createAdditionalService,
 			}}
 		>
 			{children}
