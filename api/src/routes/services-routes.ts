@@ -13,8 +13,14 @@ servicesRoutes.post(
 
 servicesRoutes.get(
   '/',
-  verifyUserAuthorization(['ADMIN', 'CLIENT']),
+  verifyUserAuthorization(['ADMIN']),
   servicesController.index,
+);
+
+servicesRoutes.get(
+  '/active',
+  verifyUserAuthorization(['CLIENT', 'TECHNICIAN']),
+  servicesController.activeIndex,
 );
 
 servicesRoutes.get(

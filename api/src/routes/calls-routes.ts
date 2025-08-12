@@ -1,9 +1,11 @@
 import { CallsController } from '@/controllers/calls-controller';
+import { CallsServicesController } from '@/controllers/calls-services-controller';
 import { verifyUserAuthorization } from '@/middlewares/verify-user-authorization';
 import { Router } from 'express';
 
 const callsRoutes = Router();
 const callsController = new CallsController();
+const callsServicesController = new CallsServicesController();
 
 callsRoutes.post(
   '/',
@@ -13,32 +15,32 @@ callsRoutes.post(
 
 callsRoutes.get(
   '/',
-  verifyUserAuthorization(['ADMIN', 'CLIENT']),
+  verifyUserAuthorization(['ADMIN', 'CLIENT', 'TECHNICIAN']),
   callsController.index,
 );
 
 callsRoutes.get(
   '/:id',
-  verifyUserAuthorization(['ADMIN', 'CLIENT']),
+  verifyUserAuthorization(['ADMIN', 'CLIENT', 'TECHNICIAN']),
   callsController.show,
 );
 
-// callsRoutes.patch(
-//   '/:id/active',
-//   verifyUserAuthorization(['ADMIN']),
-//   callsController.active,
-// );
+callsRoutes.patch(
+  '/:id/finish',
+  verifyUserAuthorization(['ADMIN', 'TECHNICIAN']),
+  callsController.finish,
+);
 
-// callsRoutes.patch(
-//   '/:id/inactive',
-//   verifyUserAuthorization(['ADMIN']),
-//   callsController.inactive,
-// );
+callsRoutes.patch(
+  '/:id/start',
+  verifyUserAuthorization(['ADMIN', 'TECHNICIAN']),
+  callsController.start,
+);
 
-// callsRoutes.put(
-//   '/:id',
-//   verifyUserAuthorization(['ADMIN']),
-//   callsController.update,
-// );
+callsRoutes.post(
+  '/:id/additional-call-service',
+  verifyUserAuthorization(['ADMIN', 'TECHNICIAN']),
+  callsServicesController.create,
+);
 
 export { callsRoutes };

@@ -29,7 +29,6 @@ class CallsController {
       const now = new Date();
       now.setHours(now.getHours() - 3);
       const currentTime = now.getHours().toString().padStart(2, '0') + ':00';
-
       const availableTechnicians = await tx.user.findMany({
         where: {
           role: 'TECHNICIAN',
@@ -85,11 +84,32 @@ class CallsController {
     response.status(201).json();
   }
 
-  async index(_: Request, response: Response) {
+  async index(request: Request, response: Response) {
+    let where: { clientId?: string; technicianId?: string } = {
+      clientId: request.user?.id,
+      technicianId: undefined,
+    };
+
+    if (request.user?.role === 'ADMIN') {
+      where = {
+        clientId: undefined,
+        technicianId: undefined,
+      };
+    }
+
+    // if (request.user?.role === 'TECHNICIAN') {
+    //   where = {
+    //     clientId: undefined,
+    //     technicianId: request.user.id,
+    //   };
+    // }
+
     const calls = await prisma.call.findMany({
+      where,
       select: {
         id: true,
         title: true,
+        description: true,
         createdAt: true,
         status: true,
         client: {
@@ -188,27 +208,62 @@ class CallsController {
     );
   }
 
-  async createAdditionalService(request: Request, response: Response) {
+  async start(request: Request, response: Response) {
     const paramsSchema = z.object({
       id: z.string().uuid(),
     });
 
     const { id } = paramsSchema.parse(request.params);
 
-    const bodySchema = z.object({
-      serviceId: z.string().uuid(),
-    });
-
-    const { serviceId } = bodySchema.parse(request.body);
-
-    await prisma.callService.create({
-      data: {
-        callId: id,
-        serviceId,
+    const call = await prisma.call.findUnique({
+      where: {
+        id,
       },
     });
 
-    response.status(201);
+    if (call?.technicianId !== request.user?.id) {
+      throw new AppError('Usuário não autorizado', 401);
+    }
+
+    await prisma.call.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'IN_PROGRESS',
+      },
+    });
+
+    response.status(200).json();
+  }
+
+  async finish(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+
+    const call = await prisma.call.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (call?.technicianId !== request.user?.id) {
+      throw new AppError('Usuário não autorizado', 401);
+    }
+
+    await prisma.call.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'CLOSED',
+      },
+    });
+
+    response.status(200).json();
   }
 }
 

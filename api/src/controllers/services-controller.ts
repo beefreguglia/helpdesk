@@ -30,6 +30,27 @@ class ServicesController {
         id: true,
       },
       orderBy: {
+        createdAt: 'asc',
+      },
+    });
+
+    response.status(200).json({
+      services,
+    });
+  }
+
+  async activeIndex(_: Request, response: Response) {
+    const services = await prisma.service.findMany({
+      where: {
+        isActive: true,
+      },
+      select: {
+        title: true,
+        price: true,
+        isActive: true,
+        id: true,
+      },
+      orderBy: {
         createdAt: 'desc',
       },
     });

@@ -39,8 +39,9 @@ model User {
 }
 
 model Technician {
-  id           String @id @default(uuid())
+  id           String  @id @default(uuid())
   availability String
+  isFirstLogin Boolean @default(true)
 
   userId String @unique @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
