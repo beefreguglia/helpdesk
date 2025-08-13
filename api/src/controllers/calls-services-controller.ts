@@ -25,6 +25,24 @@ class CallsServicesController {
 
     response.status(201).json();
   }
+
+  async delete(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      callId: z.string().uuid(),
+      serviceId: z.string().uuid(),
+    });
+
+    const { callId, serviceId } = paramsSchema.parse(request.params);
+
+    await prisma.callService.delete({
+      where: {
+        callId,
+        id: serviceId,
+      },
+    });
+
+    response.status(201).json();
+  }
 }
 
 export { CallsServicesController };

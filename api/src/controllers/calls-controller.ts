@@ -97,12 +97,12 @@ class CallsController {
       };
     }
 
-    // if (request.user?.role === 'TECHNICIAN') {
-    //   where = {
-    //     clientId: undefined,
-    //     technicianId: request.user.id,
-    //   };
-    // }
+    if (request.user?.role === 'TECHNICIAN') {
+      where = {
+        clientId: undefined,
+        technicianId: request.user.id,
+      };
+    }
 
     const calls = await prisma.call.findMany({
       where,
@@ -176,6 +176,7 @@ class CallsController {
         },
         callServices: {
           select: {
+            id: true,
             service: {
               select: {
                 title: true,
@@ -200,9 +201,10 @@ class CallsController {
             clientName: call.client.name,
             technicianName: call.technician.name,
             technicianEmail: call.technician.email,
-            services: call.callServices.map(
-              (callService) => callService.service,
-            ),
+            services: call.callServices.map((callService) => ({
+              id: callService.id,
+              service: callService.service,
+            })),
           }
         : null,
     );

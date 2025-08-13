@@ -43,4 +43,10 @@ callsRoutes.post(
   callsServicesController.create,
 );
 
+callsRoutes.delete(
+  '/:callId/additional-call-service/:serviceId',
+  verifyUserAuthorization(['ADMIN', 'TECHNICIAN']),
+  callsServicesController.delete,
+);
+
 export { callsRoutes };
