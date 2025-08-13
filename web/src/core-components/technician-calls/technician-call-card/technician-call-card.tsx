@@ -1,3 +1,5 @@
+import { useQueryClient } from "@tanstack/react-query";
+import type { MouseEvent } from "react";
 import { useNavigate } from "react-router";
 import { Avatar } from "@/components/avatar";
 import { Button } from "@/components/button";
@@ -5,6 +7,8 @@ import { Card } from "@/components/card";
 import { Icon } from "@/components/icon";
 import { StatusTag } from "@/components/status-tag";
 import { Text } from "@/components/text";
+import { useCall } from "@/hooks/use-call";
+import { formatCurrencyToBRL } from "@/utils/format-to-currency";
 
 type TechnicianCallCardProps = {
 	id: string;
@@ -40,14 +44,28 @@ export function TechnicianCallCard({
 	callServices,
 }: TechnicianCallCardProps) {
 	const navigate = useNavigate();
+	const { finishCall, startCall } = useCall();
+	const queryClient = useQueryClient();
 
 	function handleNavigate() {
 		navigate(`/calls/${id}`);
 	}
 
-	const teste = callServices.reduce((acc, callService) => {
-		return callService.service.price + acc;
+	const totalPrice = callServices.reduce((acc, callService) => {
+		return Number(callService.service.price) + acc;
 	}, 0);
+
+	async function handleFinishCall(e: MouseEvent<HTMLButtonElement>) {
+		e.stopPropagation();
+		await finishCall(id);
+		queryClient.invalidateQueries({ queryKey: ["", "calls"] });
+	}
+
+	async function handleStartCall(e: MouseEvent<HTMLButtonElement>) {
+		e.stopPropagation();
+		await startCall(id);
+		queryClient.invalidateQueries({ queryKey: ["", "calls"] });
+	}
 
 	return (
 		<Card
@@ -59,14 +77,33 @@ export function TechnicianCallCard({
 				<Text variant="text-xs-bold" className="text-gray-400">
 					{id}
 				</Text>
-				{status !== "CLOSED" && (
+				{status === "IN_PROGRESS" && (
 					<div className="flex items-center gap-1">
 						<Button variant="secondary" size="icon-sm">
 							<Icon iconName="PenLine" />
 						</Button>
-						<Button size="sm" className="flex items-center gap-2">
+						<Button
+							onClick={(e) => handleFinishCall(e)}
+							size="sm"
+							className="flex items-center gap-2"
+						>
 							<Icon size="sm" iconName="CircleCheckBig" />
 							<Text>Encerrar</Text>
+						</Button>
+					</div>
+				)}
+				{status === "OPEN" && (
+					<div className="flex items-center gap-1">
+						<Button variant="secondary" size="icon-sm">
+							<Icon iconName="PenLine" />
+						</Button>
+						<Button
+							onClick={(e) => handleStartCall(e)}
+							size="sm"
+							className="flex items-center gap-2"
+						>
+							<Icon size="sm" iconName="CircleCheckBig" />
+							<Text>Iniciar</Text>
 						</Button>
 					</div>
 				)}
@@ -78,9 +115,7 @@ export function TechnicianCallCard({
 				<Text variant="text-sm">{description}</Text>
 				<div className="flex w-full items-center justify-between py-4">
 					<Text>{date}</Text>
-					<Text>
-						<Text>R$</Text> {teste}
-					</Text>
+					<Text>{formatCurrencyToBRL(totalPrice)}</Text>
 				</div>
 			</main>
 			<div className="flex w-full items-center justify-between border-gray-500 border-t pt-4">

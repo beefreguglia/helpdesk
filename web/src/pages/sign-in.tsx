@@ -1,12 +1,12 @@
 import { Header } from "../core-components/sign-in/header";
-import { SignInFormCard } from "../core-components/sign-in/signin-form-card";
 import { NavigationCard } from "../core-components/sign-in/navigation-card";
+import { SignInFormCard } from "../core-components/sign-in/signin-form-card";
 
 export function SignIn() {
 	return (
-		<main className="pt-8 px-6 pb-6 bg-gray-600 mt-8 rounded-t-md w-full max-w-[680px] md:px-36 md:py-12 overflow-hidden">
+		<main className="mt-8 w-full max-w-[680px] overflow-hidden rounded-t-md bg-gray-600 px-6 pt-8 pb-6 md:px-36 md:py-12">
 			<Header />
-			<div className="overflow-auto h-full">
+			<div className="h-full overflow-auto">
 				<SignInFormCard />
 				<NavigationCard />
 			</div>

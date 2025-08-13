@@ -21,12 +21,12 @@ export function CreateCall() {
 	}
 
 	return (
-		<main className="bg-gray-600 h-screen flex-1 flex justify-center rounded-t-md md:rounded-tr-none pt-7 px-6 b-6 overflow-y-auto">
-			<div className="md:max-w-[1140px] flex flex-col w-full">
-				<Text as="h1" variant="text-xl" className="text-blue-dark mb-6">
+		<main className="b-6 flex h-screen flex-1 justify-center overflow-y-auto rounded-t-md bg-gray-600 px-6 pt-7 md:rounded-tr-none">
+			<div className="flex w-full flex-col md:max-w-[1140px]">
+				<Text as="h1" variant="text-xl" className="mb-6 text-blue-dark">
 					Novo Chamado
 				</Text>
-				<div className="flex flex-col md:flex-row gap-4 md:gap-6 pb-6">
+				<div className="flex flex-col gap-4 pb-6 md:flex-row md:gap-6">
 					<CreateCallInformationCard
 						handleSubmit={handleSubmit}
 						handleFinish={handleFinish}

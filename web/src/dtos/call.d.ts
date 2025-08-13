@@ -6,6 +6,7 @@ type ServiceInCall = {
 };
 
 type CallService = {
+	id: string;
 	service: ServiceInCall;
 };
 
@@ -32,7 +33,7 @@ type CallDetails = {
 	clientName: string;
 	technicianName: string;
 	technicianEmail: string;
-	services: ServiceInCall[];
+	services: CallService[];
 	createdAt: Date;
 	updatedAt: Date;
 };

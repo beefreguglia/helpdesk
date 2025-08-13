@@ -61,7 +61,7 @@ export function SignInFormCard() {
 	}, [errors.root?.serverError]);
 
 	return (
-		<Card size="md" className="w-full mt-6 mb-3 md:mt-10 flex flex-col gap-10">
+		<Card size="md" className="mt-6 mb-3 flex w-full flex-col gap-10 md:mt-10">
 			<div className="flex flex-col gap-0.5">
 				<Text variant="text-lg" as="h1">
 					Acesse o portal

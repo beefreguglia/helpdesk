@@ -10,7 +10,7 @@ export function TechnicianCard() {
 	const [initialService, ...additionalServices] = services;
 
 	const total = services.reduce(
-		(sum, item) => sum + (Number(item?.price) || 0),
+		(sum, item) => sum + (Number(item?.service.price) || 0),
 		0,
 	);
 
@@ -38,7 +38,7 @@ export function TechnicianCard() {
 					<div className="flex w-full items-center justify-between">
 						<Text variant="text-xs">Preço base</Text>
 						<Text variant="text-xs">
-							{formatCurrencyToBRL(initialService.price)}
+							{formatCurrencyToBRL(initialService.service.price)}
 						</Text>
 					</div>
 				</div>
@@ -55,12 +55,14 @@ export function TechnicianCard() {
 								</Text>
 								{additionalServices.map((additionalService, i) => (
 									<div
-										key={`${additionalService.title}-${i}`}
+										key={`${additionalService.id}-${i}`}
 										className="flex w-full items-center justify-between"
 									>
-										<Text variant="text-xs">{additionalService.title}</Text>
 										<Text variant="text-xs">
-											{formatCurrencyToBRL(additionalService.price)}
+											{additionalService.service.title}
+										</Text>
+										<Text variant="text-xs">
+											{formatCurrencyToBRL(additionalService.service.price)}
 										</Text>
 									</div>
 								))}

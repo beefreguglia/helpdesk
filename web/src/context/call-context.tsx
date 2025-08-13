@@ -12,6 +12,7 @@ type CallContextType = {
 	startCall: (id: string) => Promise<void>;
 	isCreatingAdditionalService: boolean;
 	createAdditionalService: (serviceId: string, callId: string) => Promise<void>;
+	deleteAdditionalService: (serviceId: string, callId: string) => Promise<void>;
 };
 
 export const CallContext = createContext({} as CallContextType);
@@ -97,6 +98,27 @@ export function CallProvider({ children }: { children: ReactNode }) {
 		}
 	}
 
+	async function deleteAdditionalService(serviceId: string, callId: string) {
+		try {
+			setIsCreatingAdditionalService(true);
+
+			await api.delete(`/calls/${callId}/additional-call-service/${serviceId}`);
+			await getCall(callId);
+			toast.success("Serviço deletado com sucesso!");
+		} catch (error) {
+			console.error(error);
+			if (error instanceof AxiosError) {
+				const errorMessage =
+					error.response?.data.message || "Erro inesperado ao deletar serviço.";
+				toast.error(errorMessage);
+			} else {
+				toast.error("Erro inesperado ao criar serviço!");
+			}
+		} finally {
+			setIsCreatingAdditionalService(false);
+		}
+	}
+
 	return (
 		<CallContext.Provider
 			value={{
@@ -107,6 +129,7 @@ export function CallProvider({ children }: { children: ReactNode }) {
 				isCallLoading,
 				isCreatingAdditionalService,
 				createAdditionalService,
+				deleteAdditionalService,
 			}}
 		>
 			{children}

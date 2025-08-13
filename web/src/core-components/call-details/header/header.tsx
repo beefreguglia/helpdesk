@@ -50,7 +50,10 @@ export function Header() {
 							</Text>
 						</Button>
 						<Button
-							disabled={status === "IN_PROGRESS"}
+							disabled={
+								status === "IN_PROGRESS" ||
+								(status === "CLOSED" && session.user.role === "TECHNICIAN")
+							}
 							className="flex w-full items-center gap-2 md:w-auto md:shrink-0"
 							onClick={handleStartCall}
 						>
