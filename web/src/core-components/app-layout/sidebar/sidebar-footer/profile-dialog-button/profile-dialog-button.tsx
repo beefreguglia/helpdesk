@@ -11,6 +11,8 @@ import { Icon } from "@/components/icon";
 import { Input } from "@/components/input";
 import { Text } from "@/components/text";
 import { useAuth } from "@/hooks/use-auth";
+import { useClients } from "@/hooks/use-clients";
+import { api } from "@/services/api";
 import { ProfileDialogHeader } from "./profile-dialog-header";
 import { RecoveryPasswordDialogButton } from "./recovery-password-dialog-button";
 
@@ -23,13 +25,28 @@ type UpdateProfileFormInputs = z.infer<typeof updateProfileSchema>;
 
 export function ProfileDialogButton() {
 	const [openDialog, setOpenDialog] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	function handleOpenDialog(e: Event) {
 		e.preventDefault();
 		setOpenDialog(true);
 	}
 
-	const { session, updateProfile } = useAuth();
+	const { session, updateProfile, remove } = useAuth();
+
+	const deleteClient = async (id: string) => {
+		setIsLoading(true);
+		try {
+			await api.delete(`/clients/${id}`);
+			remove();
+			toast.success("Conta excluída com sucesso");
+		} catch (err) {
+			toast.error("Falha ao deletar conta. Tente novamente.");
+			console.error("Erro ao deletar conta:", err);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	const {
 		register,
@@ -59,6 +76,10 @@ export function ProfileDialogButton() {
 		},
 		[setError],
 	);
+
+	async function handleDeleteAccount() {
+		await deleteClient(session?.user.id!);
+	}
 
 	return (
 		<DialogRoot open={openDialog} onOpenChange={setOpenDialog}>
@@ -94,7 +115,7 @@ export function ProfileDialogButton() {
 						endAdornment={<RecoveryPasswordDialogButton />}
 					/>
 				</form>
-				<footer className="flex items-center gap-2 px-6 py-5">
+				<footer className="flex flex-col items-center gap-2 px-6 py-5">
 					<Button
 						form="update-profile-form"
 						className="w-full"
@@ -102,6 +123,14 @@ export function ProfileDialogButton() {
 						type="submit"
 					>
 						Salvar
+					</Button>
+					<Button
+						onClick={handleDeleteAccount}
+						className="w-full bg-feedback-open!"
+						isLoading={isLoading}
+						type="button"
+					>
+						Deletar conta
 					</Button>
 				</footer>
 			</DialogContent>

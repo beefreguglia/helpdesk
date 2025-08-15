@@ -25,7 +25,7 @@ clientsRoutes.put(
 
 clientsRoutes.delete(
   '/:id',
-  verifyUserAuthorization(['ADMIN']),
+  verifyUserAuthorization(['ADMIN', 'CLIENT']),
   clientsController.delete,
 );
 

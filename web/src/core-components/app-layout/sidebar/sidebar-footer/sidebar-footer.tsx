@@ -1,8 +1,8 @@
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Avatar } from "@/components/avatar";
 import { Icon } from "@/components/icon";
 import { Text } from "@/components/text";
 import { useAuth } from "@/hooks/use-auth";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ProfileDialogButton } from "./profile-dialog-button";
 
 export function SidebarFooter() {
@@ -21,17 +21,17 @@ export function SidebarFooter() {
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild>
-				<footer className=" cursor-pointer mt-auto flex items-center gap-3 border-t border-gray-200 px-4 py-5">
+				<footer className=" mt-auto flex cursor-pointer items-center gap-3 border-gray-200 border-t px-4 py-5">
 					<Avatar
 						size="sm"
 						name={session?.user.name ?? ""}
 						className="shrink-0"
 					/>
-					<div className="flex flex-col w-full overflow-hidden">
+					<div className="flex w-full flex-col overflow-hidden">
 						<Text
 							as="p"
 							variant="text-sm"
-							className="text-gray-600 truncate"
+							className="truncate text-gray-600"
 							title={session?.user.name}
 						>
 							{getLastNames(session?.user.name ?? "")}
@@ -39,7 +39,7 @@ export function SidebarFooter() {
 						<Text
 							as="p"
 							variant="text-xs"
-							className="text-gray-400 truncate"
+							className="truncate text-gray-400"
 							title={session?.user.email}
 						>
 							{session?.user.email}
@@ -50,18 +50,18 @@ export function SidebarFooter() {
 			<DropdownMenu.Portal>
 				<DropdownMenu.Content
 					side="right"
-					className="bg-gray-100 border border-gray-400 rounded-sm w-[calc(100vw-16px)] mx-2 mb-2 py-4 md:w-[200px]"
+					className="mx-2 mb-2 w-[calc(100vw-16px)] rounded-sm border border-gray-400 bg-gray-100 py-4 md:w-[200px]"
 				>
 					<DropdownMenu.Label asChild>
-						<Text variant="text-xxs" className="text-gray-400 px-4 mb-4">
+						<Text variant="text-xxs" className="mb-4 px-4 text-gray-400">
 							Opções
 						</Text>
 					</DropdownMenu.Label>
-					<div className="flex flex-col gap-1 mt-4">
+					<div className="mt-4 flex flex-col gap-1">
 						<ProfileDialogButton />
 						<DropdownMenu.Item
 							onClick={remove}
-							className="rounded-xs py-2 px-4 flex items-center gap-3 hover:bg-gray-200 text-feedback-danger cursor-pointer"
+							className="flex cursor-pointer items-center gap-3 rounded-xs px-4 py-2 text-feedback-danger hover:bg-gray-200"
 						>
 							<Icon size="xl" iconName="LogOut" />
 							<Text variant="text-sm">Sair</Text>

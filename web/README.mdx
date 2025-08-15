@@ -2,9 +2,7 @@
 
 <img src="./assets/desktop.png" alt="desktop">
 
-> O HelpDesk é um sistema de gerenciamento de chamados.
-
-## 🚀 Projeto formação Full-stack Rocketseat
+> O HelpDesk é um sistema de gerenciamento de chamados. 
 
 Este projeto foi desenvolvido e aprimorado durante o curso full-stack da Rocketseat.
 
@@ -69,34 +67,33 @@ O Sistema terá três personas: o `admin`, o `técnico` e o `cliente`;
 
 ### O **Cliente**: É a pessoa responsável por criar um `Chamado`
 
-- [ ] O `Cliente` deve conseguir criar sua conta de `Cliente`.
-- [ ] O `Cliente` deve conseguir editar sua conta de `Cliente`.
-- [ ] O `Cliente` deve conseguir excluir sua conta de `Cliente`.
-- [ ] Ao excluir uma conta de Cliente todos os Chamados criados por esse Cliente serão excluídos também.
+- [x] O `Cliente` deve conseguir criar sua conta de `Cliente`.
+- [x] O `Cliente` deve conseguir editar sua conta de `Cliente`.
+- [x] O `Cliente` deve conseguir excluir sua conta de `Cliente`.
+- [x] Ao excluir uma conta de Cliente todos os Chamados criados por esse Cliente serão excluídos também.
 - [ ] O sistema deve permitir o envio de imagem para ser usada no perfil do `Cliente`.
-- [ ] O sistema deve permitir ao `Cliente` escolher um `Técnico` disponível durante a criação do `Chamado`.
-- [ ] O sistema deve permitir ao `Cliente` visualizar um histórico com todos os `Chamados` já criados por ele.
-- [ ] Não deve ser permitido ao `Cliente` alterar outras contas que não lhe pertençam.
-- [ ] Não deve ser permitido ao `Cliente` excluir outras contas que não lhe pertençam.
-- [ ] Não deve ser permitido ao `Cliente` alterar qualquer informação de um `Chamado` após ser criado.
+- [x] O sistema deve permitir ao `Cliente` visualizar um histórico com todos os `Chamados` já criados por ele.
+- [x] Não deve ser permitido ao `Cliente` alterar outras contas que não lhe pertençam.
+- [x] Não deve ser permitido ao `Cliente` excluir outras contas que não lhe pertençam.
+- [x] Não deve ser permitido ao `Cliente` alterar qualquer informação de um `Chamado` após ser criado.
 
 ### O **Chamado**: É a relação entre um `Cliente` e um `Técnico`
 
-- [ ] O sistema deve permitir que vários `Chamados` sejam criados por um `Cliente`.
-- [ ] O Cliente deve criar um Chamado selecionando a categoria do Serviço.
-- [ ] Todo `Chamado` deve ter pelo menos um `Serviço` selecionando, podendo ser adicionado novos `Serviços` pelo `Técnico` responsável pelo atendimento.
-- [ ] O `Chamado` deve exibir o valor do `Serviço` solicitado e o valor de cada `Serviço` adicional incluído pelo `Técnico` assim como o somatório do valor total de todos os `Serviços`.
-- [ ] Durante a criação de um `Chamado` o `Cliente` deve atribuír um `Técnico` responsável.
-- [ ] O `Chamado` pode ter seu status alterado pelo `Técnico` responsável ou pelo `Admin`.
-- [ ] O `Chamado` só pode ter status de: `Aberto`, `Em atendimento` ou `Encerrado`.
+- [x] O sistema deve permitir que vários `Chamados` sejam criados por um `Cliente`.
+- [x] O Cliente deve criar um Chamado selecionando a categoria do Serviço.
+- [x] Todo `Chamado` deve ter pelo menos um `Serviço` selecionando, podendo ser adicionado novos `Serviços` pelo `Técnico` responsável pelo atendimento.
+- [x] O `Chamado` deve exibir o valor do `Serviço` solicitado e o valor de cada `Serviço` adicional incluído pelo `Técnico` assim como o somatório do valor total de todos os `Serviços`.
+- [x] Durante a criação de um `Chamado` o `Sistema` deve atribuír um `Técnico` responsável.
+- [x] O `Chamado` pode ter seu status alterado pelo `Técnico` responsável ou pelo `Admin`.
+- [x] O `Chamado` só pode ter status de: `Aberto`, `Em atendimento` ou `Encerrado`.
 
 ### O Serviço: Categoria de atividades que serão executadas pelo `Técnico` e solicitadas pelos `Clientes`
 
-- [ ] Somente o `Admin` deve criar as informações dos Serviços.
-- [ ] Somente o `Admin` deve editar as informações dos Serviços.
-- [ ] Somente o `Admin` deve desativar as informações dos Serviços.
-- [ ] Os `Serviços` serão parte das informações de um `Chamado`.
-- [ ] Cada `Serviço` terá um valor a ser cobrado do `Cliente`
+- [x] Somente o `Admin` deve criar as informações dos Serviços.
+- [x] Somente o `Admin` deve editar as informações dos Serviços.
+- [x] Somente o `Admin` deve desativar as informações dos Serviços.
+- [x] Os `Serviços` serão parte das informações de um `Chamado`.
+- [x] Cada `Serviço` terá um valor a ser cobrado do `Cliente`
 - [ ]  Devem existir pelo menos 5 serviços a serem oferecidos:
     - Exemplos de serviços:
         - Instalação e atualização de softwares
@@ -111,9 +108,9 @@ O Sistema terá três personas: o `admin`, o `técnico` e o `cliente`;
 
 ### Sistema
 
-- [ ]  Os usuários deverão se autenticar para ter acesso a aplicação através da tela de login. Deve ser utilizado JWT no processo de autenticação.
-- [ ]  A aplicação deve ser responsiva de acordo com o conceito de Mobile First seguindo o layout do Figma.
-- [ ]  A sua aplicação deverá consumir a sua própria API.
+- [x]  Os usuários deverão se autenticar para ter acesso a aplicação através da tela de login. Deve ser utilizado JWT no processo de autenticação.
+- [x]  A aplicação deve ser responsiva de acordo com o conceito de Mobile First seguindo o layout do Figma.
+- [x]  A sua aplicação deverá consumir a sua própria API.
 - [ ]  Os repositórios devem conter um README bem detalhado tanto no back-end quanto no front-end com link de deploy e instruções para a execução da aplicação localmente.
 - [ ]  Deve ser feito o deploy tanto do front-end quanto do back-end.
 

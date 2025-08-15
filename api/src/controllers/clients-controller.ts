@@ -1,4 +1,5 @@
 import { prisma } from '@/database/prisma';
+import { AppError } from '@/utils/AppError';
 import type { Request, Response } from 'express';
 import { z } from 'zod';
 
@@ -85,6 +86,12 @@ class ClientsController {
     });
 
     const { id } = paramsSchema.parse(request.params);
+
+    if (request.user?.role === 'CLIENT') {
+      if (request.user.id !== id) {
+        throw new AppError('Cliente só pode deletar a própria conta');
+      }
+    }
 
     await prisma.user.delete({
       where: {
