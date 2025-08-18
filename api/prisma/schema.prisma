@@ -25,7 +25,7 @@ model User {
   email     String   @unique
   password  String
   role      UserRole
-  avatarUrl String?  @map("avatar_url")
+  imageName String?  @map("image_name")
 
   technicianProfile Technician?
 

@@ -97,12 +97,12 @@ class CallsController {
       };
     }
 
-    if (request.user?.role === 'TECHNICIAN') {
-      where = {
-        clientId: undefined,
-        technicianId: request.user.id,
-      };
-    }
+    // if (request.user?.role === 'TECHNICIAN') {
+    //   where = {
+    //     clientId: undefined,
+    //     technicianId: request.user.id,
+    //   };
+    // }
 
     const calls = await prisma.call.findMany({
       where,
@@ -115,11 +115,13 @@ class CallsController {
         client: {
           select: {
             name: true,
+            imageName: true,
           },
         },
         technician: {
           select: {
             name: true,
+            imageName: true,
           },
         },
         callServices: {
@@ -166,12 +168,14 @@ class CallsController {
         client: {
           select: {
             name: true,
+            imageName: true,
           },
         },
         technician: {
           select: {
             name: true,
             email: true,
+            imageName: true,
           },
         },
         callServices: {
@@ -199,7 +203,9 @@ class CallsController {
             createdAt: call.createdAt,
             updatedAt: call.updatedAt,
             clientName: call.client.name,
+            clientImageName: call.client.imageName,
             technicianName: call.technician.name,
+            technicianImageName: call.technician.imageName,
             technicianEmail: call.technician.email,
             services: call.callServices.map((callService) => ({
               id: callService.id,

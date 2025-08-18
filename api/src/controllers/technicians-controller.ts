@@ -57,6 +57,7 @@ class TechniciansController {
             id: true,
             email: true,
             name: true,
+            imageName: true,
           },
         },
       },
@@ -71,6 +72,7 @@ class TechniciansController {
         name: technician.user.name,
         email: technician.user.email,
         availability: JSON.parse(technician.availability),
+        imageName: technician.user.imageName,
       })),
     });
   }
@@ -100,6 +102,7 @@ class TechniciansController {
       name: technician.user.name,
       email: technician.user.email,
       availability: JSON.parse(technician.availability),
+      imageName: technician.user.imageName,
     });
   }
 

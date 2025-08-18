@@ -13,6 +13,7 @@ class ClientsController {
         name: true,
         email: true,
         id: true,
+        imageName: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -38,6 +39,7 @@ class ClientsController {
       select: {
         email: true,
         name: true,
+        imageName: true,
       },
     });
 
