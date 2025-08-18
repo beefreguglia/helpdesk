@@ -18,6 +18,7 @@ type TechnicianCallCardProps = {
 	status: CallStatus;
 	clientName: string;
 	callServices: CallService[];
+	clientImageName?: string;
 };
 
 const statusToVariant: Record<
@@ -42,6 +43,7 @@ export function TechnicianCallCard({
 	status,
 	clientName,
 	callServices,
+	clientImageName,
 }: TechnicianCallCardProps) {
 	const navigate = useNavigate();
 	const { finishCall, startCall } = useCall();
@@ -120,7 +122,7 @@ export function TechnicianCallCard({
 			</main>
 			<div className="flex w-full items-center justify-between border-gray-500 border-t pt-4">
 				<div className="flex items-center gap-2">
-					<Avatar size="xs" name={clientName} />
+					<Avatar fileName={clientImageName} size="xs" name={clientName} />
 					<Text>{clientName}</Text>
 				</div>
 				<div className="flex items-center">

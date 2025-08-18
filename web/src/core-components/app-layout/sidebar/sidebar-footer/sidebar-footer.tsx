@@ -23,6 +23,7 @@ export function SidebarFooter() {
 			<DropdownMenu.Trigger asChild>
 				<footer className=" mt-auto flex cursor-pointer items-center gap-3 border-gray-200 border-t px-4 py-5">
 					<Avatar
+						fileName={session?.user.imageName}
 						size="sm"
 						name={session?.user.name ?? ""}
 						className="shrink-0"

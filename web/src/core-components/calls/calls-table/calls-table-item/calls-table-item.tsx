@@ -14,8 +14,8 @@ type CallsTableItemProps = {
 	title: string;
 	status: CallStatus;
 	updatedAt: Date;
-	client: { name: string };
-	technician: { name: string };
+	client: { name: string; imageName?: string };
+	technician: { name: string; imageName?: string };
 	services: CallService[];
 };
 
@@ -77,13 +77,17 @@ export function CallsTableItem({
 			</TableBodyItem>
 			<TableBodyItem className="hidden md:table-cell">
 				<div className="flex items-center gap-2">
-					<Avatar size="xs" name={client.name} />
+					<Avatar fileName={client?.imageName} size="xs" name={client.name} />
 					<Text variant="text-sm">{client.name}</Text>
 				</div>
 			</TableBodyItem>
 			<TableBodyItem className="hidden md:table-cell">
 				<div className="flex items-center gap-2">
-					<Avatar size="xs" name={technician.name} />
+					<Avatar
+						fileName={technician?.imageName}
+						size="xs"
+						name={technician.name}
+					/>
 					<Text variant="text-sm">{technician.name}</Text>
 				</div>
 			</TableBodyItem>

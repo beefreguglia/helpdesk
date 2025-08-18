@@ -4,12 +4,13 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
+import { Avatar } from "@/components/avatar";
 import { Button } from "@/components/button";
 import { DialogContent, DialogRoot } from "@/components/dialog";
 import { Icon } from "@/components/icon";
 import { Input } from "@/components/input";
 import { Text } from "@/components/text";
+import { Upload } from "@/components/upload";
 import { useAuth } from "@/hooks/use-auth";
 import { useClients } from "@/hooks/use-clients";
 import { api } from "@/services/api";
@@ -26,13 +27,14 @@ type UpdateProfileFormInputs = z.infer<typeof updateProfileSchema>;
 export function ProfileDialogButton() {
 	const [openDialog, setOpenDialog] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
 	function handleOpenDialog(e: Event) {
 		e.preventDefault();
 		setOpenDialog(true);
 	}
 
-	const { session, updateProfile, remove } = useAuth();
+	const { session, updateProfile, updateAvatar, remove } = useAuth();
 
 	const deleteClient = async (id: string) => {
 		setIsLoading(true);
@@ -46,6 +48,12 @@ export function ProfileDialogButton() {
 		} finally {
 			setIsLoading(false);
 		}
+	};
+
+	const handleFileChange = async (file: File) => {
+		setIsUploadingAvatar(true);
+		await updateAvatar(file);
+		setIsUploadingAvatar(false);
 	};
 
 	const {
@@ -92,6 +100,14 @@ export function ProfileDialogButton() {
 			</DropdownMenuItem>
 			<DialogContent>
 				<ProfileDialogHeader />
+				<div className="px-6">
+					<Upload
+						fileName={session?.user.imageName}
+						name={session?.user.name!}
+						onDelete={() => {}}
+						onFileChange={handleFileChange}
+					/>
+				</div>
 				<form
 					id="update-profile-form"
 					onSubmit={handleSubmit(onSubmit)}
@@ -124,14 +140,16 @@ export function ProfileDialogButton() {
 					>
 						Salvar
 					</Button>
-					<Button
-						onClick={handleDeleteAccount}
-						className="w-full bg-feedback-open!"
-						isLoading={isLoading}
-						type="button"
-					>
-						Deletar conta
-					</Button>
+					{session?.user.role === "CLIENT" && (
+						<Button
+							onClick={handleDeleteAccount}
+							className="w-full bg-feedback-open!"
+							isLoading={isLoading}
+							type="button"
+						>
+							Deletar conta
+						</Button>
+					)}
 				</footer>
 			</DialogContent>
 		</DialogRoot>

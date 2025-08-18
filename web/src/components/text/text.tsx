@@ -13,6 +13,7 @@ export const textVariants = cva("font-sans", {
 			"text-md-bold": "text-md leading-1.4 font-bold",
 			"text-lg": "text-lg leading-1.4 font-bold",
 			"text-xl": "text-xl leading-1.4 font-bold",
+			"text-2xl": "text-2xl leading-1.4",
 		},
 	},
 	defaultVariants: {

@@ -6,7 +6,8 @@ import { formatCurrencyToBRL } from "@/utils/format-to-currency";
 
 export function TechnicianCard() {
 	const { call } = useCall();
-	const { services, technicianName, technicianEmail } = call!;
+	const { services, technicianName, technicianEmail, technicianImageName } =
+		call!;
 	const [initialService, ...additionalServices] = services;
 
 	const total = services.reduce(
@@ -21,7 +22,7 @@ export function TechnicianCard() {
 					Técnico responsável
 				</Text>
 				<div className="flex items-center gap-2">
-					<Avatar name={technicianName} />
+					<Avatar fileName={technicianImageName} name={technicianName} />
 					<div className="flex flex-col">
 						<Text variant="text-sm">{technicianName}</Text>
 						<Text variant="text-xs" className="text-gray-300">

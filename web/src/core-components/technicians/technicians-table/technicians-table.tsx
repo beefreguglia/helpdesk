@@ -14,7 +14,7 @@ export function TechniciansTable() {
 		<TableRoot>
 			<TableHeader>
 				<TableHeaderItem className="w-full">Nome</TableHeaderItem>
-				<TableHeaderItem className="hidden md:table-cell w-full">
+				<TableHeaderItem className="hidden w-full md:table-cell">
 					E-mail
 				</TableHeaderItem>
 				<TableHeaderItem className="w-30 md:w-[27.5rem]">
@@ -23,13 +23,14 @@ export function TechniciansTable() {
 				<TableHeaderItem className="w-16" />
 			</TableHeader>
 			<TableBody>
-				{technicians.map(({ availability, email, id, name }) => (
+				{technicians.map(({ availability, email, id, name, imageName }) => (
 					<TechniciansTableItem
 						key={id}
 						id={id}
 						email={email}
 						name={name}
 						availability={availability}
+						fileName={imageName}
 					/>
 				))}
 			</TableBody>

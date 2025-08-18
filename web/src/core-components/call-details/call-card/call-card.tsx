@@ -32,6 +32,7 @@ export function CallCard() {
 		status,
 		title,
 		services,
+		clientImageName,
 	} = call!;
 
 	const formattedCreatedAt = dayjs(createdAt).format("DD/MM/YYYY HH:mm");
@@ -62,7 +63,7 @@ export function CallCard() {
 					<Text as="label" variant="text-xs-bold" className="text-gray-400">
 						Categoria
 					</Text>
-					<Text variant="text-sm">{services[0].title}</Text>
+					<Text variant="text-sm">{services[0].service.title}</Text>
 				</div>
 
 				<div className="flex w-full items-center gap-8">
@@ -85,7 +86,7 @@ export function CallCard() {
 						Cliente
 					</Text>
 					<div className="flex items-center gap-2">
-						<Avatar name={clientName} size="xs" />
+						<Avatar fileName={clientImageName} name={clientName} size="xs" />
 						<Text variant="text-sm">{clientName}</Text>
 					</div>
 				</div>

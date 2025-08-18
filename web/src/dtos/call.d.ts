@@ -18,9 +18,11 @@ type Call = {
 	updatedAt: Date;
 	client: {
 		name: string;
+		imageName?: string;
 	};
 	technician: {
 		name: string;
+		imageName?: string;
 	};
 	callServices: CallService[];
 };
@@ -31,6 +33,8 @@ type CallDetails = {
 	description: string;
 	status: CallStatus;
 	clientName: string;
+	clientImageName?: string;
+	technicianImageName?: string;
 	technicianName: string;
 	technicianEmail: string;
 	services: CallService[];

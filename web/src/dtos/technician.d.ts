@@ -4,4 +4,5 @@ type Technician = {
 	name: string;
 	password: string;
 	availability: string[];
+	imageName?: string;
 };

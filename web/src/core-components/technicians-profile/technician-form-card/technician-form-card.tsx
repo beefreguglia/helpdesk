@@ -27,6 +27,7 @@ export function TechnicianFormCard() {
 		clearErrors,
 		isLoading,
 		error,
+		imageName,
 	} = useTechnician();
 
 	const handleLoadTechnician = useCallback(
@@ -98,7 +99,9 @@ export function TechnicianFormCard() {
 				Defina as informações do perfil de técnico
 			</Text>
 			<form className="mt-6 flex flex-col gap-4">
-				{isEditing && <Avatar name={name || "Técnico"} size="lg" />}
+				{isEditing && (
+					<Avatar fileName={imageName} name={name || "Técnico"} size="lg" />
+				)}
 				<Input
 					legend="Nome"
 					value={name}

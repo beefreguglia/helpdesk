@@ -61,6 +61,7 @@ export function TechnicianCalls() {
 												clientName={client.name}
 												status={status}
 												callServices={callServices}
+												clientImageName={client?.imageName}
 											/>
 										);
 									},
@@ -95,6 +96,7 @@ export function TechnicianCalls() {
 												clientName={client.name}
 												status={status}
 												callServices={callServices}
+												clientImageName={client.imageName}
 											/>
 										);
 									},
@@ -130,6 +132,7 @@ export function TechnicianCalls() {
 												clientName={client.name}
 												status={status}
 												callServices={callServices}
+												clientImageName={client.imageName}
 											/>
 										);
 									},

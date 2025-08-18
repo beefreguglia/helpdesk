@@ -18,8 +18,14 @@ export function ClientsTable() {
 				<TableHeaderItem className="w-24" />
 			</TableHeader>
 			<TableBody>
-				{clients.map(({ email, id, name }) => (
-					<ClientsTableItem email={email} id={id} name={name} key={id} />
+				{clients.map(({ email, id, name, imageName }) => (
+					<ClientsTableItem
+						imageName={imageName}
+						email={email}
+						id={id}
+						name={name}
+						key={id}
+					/>
 				))}
 			</TableBody>
 		</TableRoot>

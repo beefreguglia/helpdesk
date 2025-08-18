@@ -10,6 +10,7 @@ type TechniciansTableItemProps = {
 	email: string;
 	id: string;
 	availability: string[];
+	fileName?: string;
 };
 
 export function TechniciansTableItem({
@@ -17,12 +18,13 @@ export function TechniciansTableItem({
 	email,
 	availability,
 	id,
+	fileName,
 }: TechniciansTableItemProps) {
 	return (
 		<tr>
 			<TableBodyItem>
 				<div className="flex items-center gap-3">
-					<Avatar size="sm" name={name} />
+					<Avatar fileName={fileName} size="sm" name={name} />
 					<Text variant="text-sm-bold">{name}</Text>
 				</div>
 			</TableBodyItem>

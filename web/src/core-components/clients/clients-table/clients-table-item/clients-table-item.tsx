@@ -8,14 +8,25 @@ type ClientsTableItemProps = {
 	id: string;
 	name: string;
 	email: string;
+	imageName?: string;
 };
 
-export function ClientsTableItem({ email, name, id }: ClientsTableItemProps) {
+export function ClientsTableItem({
+	email,
+	name,
+	id,
+	imageName,
+}: ClientsTableItemProps) {
 	return (
 		<tr>
 			<TableBodyItem>
 				<div className="flex items-center gap-3 ">
-					<Avatar size="sm" name={name} className="shrink-0" />
+					<Avatar
+						size="sm"
+						name={name}
+						fileName={imageName}
+						className="shrink-0"
+					/>
 					<Text variant="text-sm-bold" className="truncate">
 						{name}
 					</Text>

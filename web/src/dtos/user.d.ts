@@ -7,5 +7,6 @@ type UserApiResponse = {
 		name: string;
 		email: string;
 		role: UserApiRole;
+		imageName?: string;
 	};
 };

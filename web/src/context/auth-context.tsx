@@ -25,6 +25,7 @@ type AuthContext = {
 		name?: string,
 		email?: string,
 	) => Promise<void>;
+	updateAvatar: (file: File) => Promise<void>;
 };
 
 const LOCAL_STORAGE_KEY = "@helpdesk";
@@ -109,6 +110,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		[],
 	);
 
+	async function updateAvatar(file: File) {
+		const formData = new FormData();
+		formData.append("file", file);
+
+		try {
+			const uploadResponse = await api.post("/uploads", formData);
+			const { filename } = uploadResponse.data;
+
+			await api.patch("/users-avatar/update", { fileName: filename });
+
+			if (session) {
+				localStorage.setItem(
+					`${LOCAL_STORAGE_KEY}:user`,
+					JSON.stringify({ ...session.user, imageName: filename }),
+				);
+				setSession({
+					...session,
+					user: {
+						...session.user,
+						imageName: filename,
+					},
+				});
+			}
+
+			toast.success("Avatar atualizado com sucesso!");
+		} catch (err) {
+			toast.error("Falha ao atualizar o avatar. Tente novamente.");
+			console.error("Erro ao atualizar avatar:", err);
+		}
+	}
+
 	useEffect(() => {
 		function loadUser() {
 			const user = localStorage.getItem(`${LOCAL_STORAGE_KEY}:user`);
@@ -130,7 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	return (
 		<AuthContext.Provider
-			value={{ session, save, isLoading, remove, updateProfile }}
+			value={{ session, save, isLoading, remove, updateProfile, updateAvatar }}
 		>
 			{children}
 		</AuthContext.Provider>

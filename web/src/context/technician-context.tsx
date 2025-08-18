@@ -31,6 +31,7 @@ type TechnicianContextType = {
 	errors: FieldErrors;
 	clearErrors: () => void;
 	getTechnician: (id: string) => Promise<void>;
+	imageName?: string;
 };
 
 type FieldErrors = {
@@ -65,12 +66,14 @@ interface Technician {
 	name: string;
 	email: string;
 	availability: string[];
+	imageName?: string;
 }
 
 export function TechnicianProvider({ children }: { children: ReactNode }) {
 	const [name, setName] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
+	const [imageName, setImageName] = useState<string>("");
 	const [availability, setAvailability] = useState<string[]>([
 		"08:00",
 		"12:00",
@@ -185,6 +188,7 @@ export function TechnicianProvider({ children }: { children: ReactNode }) {
 			setName(data.name);
 			setEmail(data.email);
 			setAvailability(data.availability);
+			setImageName(data?.imageName ?? "");
 			setPassword("");
 		} catch (err) {
 			console.error(err);
@@ -218,6 +222,7 @@ export function TechnicianProvider({ children }: { children: ReactNode }) {
 				errors,
 				clearErrors,
 				getTechnician,
+				imageName,
 			}}
 		>
 			{children}

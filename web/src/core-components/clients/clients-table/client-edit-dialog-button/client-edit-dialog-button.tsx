@@ -1,6 +1,7 @@
 import { DialogClose, DialogTitle } from "@radix-ui/react-dialog";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-
+import { toast } from "sonner";
 import { Avatar } from "@/components/avatar";
 import { Button } from "@/components/button";
 import { DialogContent, DialogRoot, DialogTrigger } from "@/components/dialog";
@@ -8,13 +9,12 @@ import { Icon } from "@/components/icon";
 import { Input } from "@/components/input";
 import { Text } from "@/components/text";
 import { api } from "@/services/api";
-import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 type Client = {
 	id: string;
 	name: string;
 	email: string;
+	imageName?: string;
 };
 
 type ClientEditDialogButtonProps = {
@@ -97,7 +97,7 @@ export function ClientEditDialogButton({ id }: ClientEditDialogButtonProps) {
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
-				<header className="flex items-center justify-between w-full px-6 py-5">
+				<header className="flex w-full items-center justify-between px-6 py-5">
 					<DialogTitle asChild>
 						<Text variant="text-md-bold" as="h3">
 							Cliente
@@ -109,11 +109,15 @@ export function ClientEditDialogButton({ id }: ClientEditDialogButtonProps) {
 						</Button>
 					</DialogClose>
 				</header>
-				<div className="border-y border-gray-500 p-6 flex flex-col gap-5">
+				<div className="flex flex-col gap-5 border-gray-500 border-y p-6">
 					{isLoading && <Text>Carregando dados do cliente...</Text>}
 					{!isLoading && clientData && (
 						<>
-							<Avatar name={clientData.name} size="lg" />
+							<Avatar
+								fileName={clientData?.imageName}
+								name={clientData.name}
+								size="lg"
+							/>
 							<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 								<Input
 									legend="Nome"

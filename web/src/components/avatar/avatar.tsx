@@ -1,6 +1,7 @@
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
-import { Text } from "../text";
+
 import { cva, type VariantProps } from "class-variance-authority";
+import { Text } from "../text";
 
 const avatarVariants = cva(
 	"inline-flex items-center justify-cente aspect-square align-middle overflow-hidden select-none rounded-full",
@@ -11,6 +12,7 @@ const avatarVariants = cva(
 				sm: "h-8 w-8",
 				md: "w-10 h-10",
 				lg: "w-12 h-12",
+				xl: "w-24 h-24",
 			},
 		},
 		defaultVariants: {
@@ -21,11 +23,11 @@ const avatarVariants = cva(
 
 type AvatarProps = VariantProps<typeof avatarVariants> & {
 	name: string;
-	src?: string;
+	fileName?: string;
 	className?: string;
 };
 
-export function Avatar({ name, size, src, className }: AvatarProps) {
+export function Avatar({ name, size, fileName, className }: AvatarProps) {
 	function getFirstAndLastInitial(fullName: string): string {
 		const nameParts = fullName.trim().split(" ");
 
@@ -40,7 +42,7 @@ export function Avatar({ name, size, src, className }: AvatarProps) {
 	}
 
 	function handleTextVariant(
-		size: "xs" | "sm" | "md" | "lg" | null | undefined,
+		size: "xs" | "sm" | "md" | "lg" | "xl" | null | undefined,
 	):
 		| "text-xxs"
 		| "text-sm"
@@ -51,6 +53,7 @@ export function Avatar({ name, size, src, className }: AvatarProps) {
 		| "text-md-bold"
 		| "text-lg"
 		| "text-xl"
+		| "text-2xl"
 		| null
 		| undefined {
 		switch (size) {
@@ -60,21 +63,25 @@ export function Avatar({ name, size, src, className }: AvatarProps) {
 			case "lg": {
 				return "text-md";
 			}
+			case "xl": {
+				return "text-2xl";
+			}
 
 			default: {
 				return "text-sm";
 			}
 		}
 	}
+
 	return (
 		<AvatarPrimitive.Root className={avatarVariants({ size, className })}>
 			<AvatarPrimitive.Image
-				className="w-full h-full object-cover rounded-full"
-				src={src}
+				className="h-full w-full rounded-full object-cover"
+				src={fileName && `${import.meta.env.VITE_API_URL}/uploads/${fileName}`}
 				alt={name}
 			/>
 			<AvatarPrimitive.Fallback
-				className="w-full h-full flex items-center justify-center bg-blue-dark text-gray-600"
+				className="flex h-full w-full items-center justify-center bg-blue-dark text-gray-600"
 				delayMs={600}
 			>
 				<Text variant={handleTextVariant(size)}>
