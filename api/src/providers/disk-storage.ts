@@ -1,7 +1,7 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from "node:fs";
+import path from "node:path";
 
-import uploadConfig from '@/configs/upload';
+import uploadConfig from "@/configs/upload";
 
 class DiskStorage {
   async saveFile(file: string) {
@@ -20,9 +20,9 @@ class DiskStorage {
 
     return file;
   }
-  async deleteFile(file: string, type: 'tmp' | 'upload') {
+  async deleteFile(file: string, type: "tmp" | "upload") {
     const pathFile =
-      type === 'tmp' ? uploadConfig.TMP_FOLDER : uploadConfig.UPLOADS_FOLDER;
+      type === "tmp" ? uploadConfig.TMP_FOLDER : uploadConfig.UPLOADS_FOLDER;
 
     const filePath = path.resolve(pathFile, file);
 

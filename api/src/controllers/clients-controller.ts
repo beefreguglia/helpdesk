@@ -1,13 +1,13 @@
-import { prisma } from '@/database/prisma';
-import { AppError } from '@/utils/AppError';
-import type { Request, Response } from 'express';
-import { z } from 'zod';
+import { prisma } from "@/database/prisma";
+import { AppError } from "@/utils/AppError";
+import type { Request, Response } from "express";
+import { z } from "zod";
 
 class ClientsController {
   async index(_: Request, response: Response) {
     const clients = await prisma.user.findMany({
       where: {
-        role: 'CLIENT',
+        role: "CLIENT",
       },
       select: {
         name: true,
@@ -16,7 +16,7 @@ class ClientsController {
         imageName: true,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
@@ -55,12 +55,12 @@ class ClientsController {
       name: z
         .string()
         .trim()
-        .min(2, { message: 'Nome é obrigatório' })
+        .min(2, { message: "Nome é obrigatório" })
         .optional(),
       email: z
         .string()
         .trim()
-        .email({ message: 'E-mail inválido' })
+        .email({ message: "E-mail inválido" })
         .toLowerCase()
         .optional(),
     });
@@ -89,9 +89,9 @@ class ClientsController {
 
     const { id } = paramsSchema.parse(request.params);
 
-    if (request.user?.role === 'CLIENT') {
+    if (request.user?.role === "CLIENT") {
       if (request.user.id !== id) {
-        throw new AppError('Cliente só pode deletar a própria conta');
+        throw new AppError("Cliente só pode deletar a própria conta");
       }
     }
 

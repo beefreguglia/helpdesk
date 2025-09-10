@@ -1,12 +1,12 @@
-import { prisma } from '@/database/prisma';
-import type { Request, Response } from 'express';
-import { z } from 'zod';
+import { prisma } from "@/database/prisma";
+import type { Request, Response } from "express";
+import { z } from "zod";
 
 class ServicesController {
   async create(request: Request, response: Response) {
     const bodySchema = z.object({
-      title: z.string().trim().min(2, { message: 'Título é obrigatório' }),
-      price: z.number().min(1, { message: 'Valor é obrigatório' }),
+      title: z.string().trim().min(2, { message: "Título é obrigatório" }),
+      price: z.number().min(1, { message: "Valor é obrigatório" }),
     });
 
     const { price, title } = bodySchema.parse(request.body);
@@ -30,7 +30,7 @@ class ServicesController {
         id: true,
       },
       orderBy: {
-        createdAt: 'asc',
+        createdAt: "asc",
       },
     });
 
@@ -51,7 +51,7 @@ class ServicesController {
         id: true,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 

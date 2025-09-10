@@ -19,7 +19,8 @@ class UsersController {
         .min(6, { message: 'A senha deve ter pelo menos 6 dígitos' }),
       role: z
         .enum([UserRole.ADMIN, UserRole.CLIENT, UserRole.TECHNICIAN])
-        .default(UserRole.CLIENT),
+        .default(UserRole.CLIENT)
+        .optional(),
     });
 
     const { email, name, password, role } = bodySchema.parse(request.body);
@@ -27,21 +28,26 @@ class UsersController {
     const userWithSameEmail = await prisma.user.findFirst({ where: { email } });
 
     if (userWithSameEmail) {
-      throw new AppError('Já existe um usuário cadastrado com esse e-mail');
+      throw new AppError(
+        'Já existe um usuário cadastrado com esse e-mail',
+        400,
+      );
     }
 
     const hashedPassword = await hash(password, 8);
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email,
         name,
+        role: role ? role : 'CLIENT',
         password: hashedPassword,
-        role,
       },
     });
 
-    response.status(201).json();
+    const { password: _, ...userWithoutPassword } = user;
+
+    response.status(201).json(userWithoutPassword);
   }
 
   async update(request: Request, response: Response) {
@@ -58,6 +64,12 @@ class UsersController {
 
     const { email, name } = bodySchema.parse(request.body);
 
+    if (request.user?.role !== 'ADMIN') {
+      if (request.user?.id !== id) {
+        throw new AppError('Usuário não autorizado', 401);
+      }
+    }
+
     if (email) {
       const userWithSameEmail = await prisma.user.findUnique({
         where: {
@@ -66,11 +78,14 @@ class UsersController {
       });
 
       if (userWithSameEmail) {
-        throw new AppError('E-mail já utilizado!', 500);
+        throw new AppError(
+          'Já existe um usuário cadastrado com esse e-mail',
+          400,
+        );
       }
     }
 
-    await prisma.user.update({
+    const userWithoutPassword = await prisma.user.update({
       where: {
         id,
       },
@@ -78,9 +93,14 @@ class UsersController {
         name,
         email,
       },
+      select: {
+        name: true,
+        id: true,
+        email: true,
+      },
     });
 
-    response.status(200).json();
+    response.status(200).json(userWithoutPassword);
   }
 }
 

@@ -1,6 +1,6 @@
-import { prisma } from '@/database/prisma';
-import type { Request, Response } from 'express';
-import { z } from 'zod';
+import { prisma } from "@/database/prisma";
+import type { Request, Response } from "express";
+import { z } from "zod";
 
 class CallsServicesController {
   async create(request: Request, response: Response) {

@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { z } from 'zod';
+import { Request, Response } from "express";
+import { z } from "zod";
 
-import uploadConfig from '@/configs/upload';
-import { DiskStorage } from '@/providers/disk-storage';
-import { AppError } from '@/utils/AppError';
-import { ZodError } from 'zod/v4';
+import uploadConfig from "@/configs/upload";
+import { DiskStorage } from "@/providers/disk-storage";
+import { AppError } from "@/utils/AppError";
+import { ZodError } from "zod/v4";
 
 class UploadsController {
   async create(request: Request, response: Response) {
@@ -13,7 +13,7 @@ class UploadsController {
     try {
       const fileSchema = z
         .object({
-          filename: z.string().min(1, 'Arquivo é obrigatório'),
+          filename: z.string().min(1, "Arquivo é obrigatório"),
           mimetype: z
             .string()
             .refine(
@@ -37,7 +37,7 @@ class UploadsController {
     } catch (error) {
       if (error instanceof ZodError) {
         if (request.file) {
-          await diskStorage.deleteFile(request.file.filename, 'tmp');
+          await diskStorage.deleteFile(request.file.filename, "tmp");
         }
         throw new AppError(error.issues[0].message);
       }

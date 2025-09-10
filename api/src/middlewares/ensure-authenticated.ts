@@ -1,7 +1,7 @@
-import { authConfig } from '@/configs/auth';
-import { AppError } from '@/utils/AppError';
-import { NextFunction, Request, Response } from 'express';
-import { verify } from 'jsonwebtoken';
+import { authConfig } from "@/configs/auth";
+import { AppError } from "@/utils/AppError";
+import { NextFunction, Request, Response } from "express";
+import { verify } from "jsonwebtoken";
 
 interface TokenPayload {
   role: string;
@@ -17,10 +17,10 @@ function ensureAuthenticated(
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
-      throw new AppError('JWT token not found', 401);
+      throw new AppError("JWT token not found", 401);
     }
 
-    const [, token] = authHeader.split(' ');
+    const [, token] = authHeader.split(" ");
 
     const { role, sub: user_id } = verify(
       token,
@@ -34,7 +34,7 @@ function ensureAuthenticated(
 
     return next();
   } catch (_) {
-    throw new AppError('Invalid JWT token', 401);
+    throw new AppError("Invalid JWT token", 401);
   }
 }
 
