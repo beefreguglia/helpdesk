@@ -2,32 +2,25 @@ import request from "supertest";
 
 import { app } from "@/app";
 import { prisma } from "@/database/prisma";
+import e from "express";
 
 const TEST_EMAIL_SUFFIX = "@test.example.com";
 
 describe("UsersController", () => {
-  const createdUserIds: string[] = [];
+  let user_id: string | undefined;
+  let second_user_id: string | undefined;
 
-  afterAll(async () => {
-    if (createdUserIds.length > 0) {
-      await prisma.user.deleteMany({
-        where: {
-          id: {
-            in: createdUserIds,
-          },
-        },
-      });
+  afterEach(async () => {
+    if (user_id) {
+      await prisma.user.delete({ where: { id: user_id } });
     }
-  });
 
-  beforeAll(async () => {
-    await prisma.user.deleteMany({
-      where: {
-        email: {
-          endsWith: TEST_EMAIL_SUFFIX,
-        },
-      },
-    });
+    if (second_user_id) {
+      await prisma.user.delete({ where: { id: second_user_id } });
+    }
+
+    user_id = undefined;
+    second_user_id = undefined;
   });
 
   it("should create a new user successfully", async () => {
@@ -39,14 +32,24 @@ describe("UsersController", () => {
         password: "123456",
       });
 
-    createdUserIds.push(response.body.id);
+    user_id = response.body.id;
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("id");
     expect(response.body.name).toBe("Test user");
   });
 
-  it("should throw an error if user with same email already exists", async () => {
+  it("should throw an error if user with same email already exists in createUser", async () => {
+    const user = await request(app)
+      .post("/users")
+      .send({
+        name: "Duplicate user",
+        email: `testuser${TEST_EMAIL_SUFFIX}`,
+        password: "123456",
+      });
+
+    user_id = user.body.id;
+
     const response = await request(app)
       .post("/users")
       .send({
@@ -79,18 +82,10 @@ describe("UsersController", () => {
         name: "Admin User",
         email: `admin${TEST_EMAIL_SUFFIX}`,
         password: "123456",
+        role: "ADMIN",
       });
 
-    createdUserIds.push(createdUserResponse.body.id);
-
-    await prisma.user.update({
-      data: {
-        role: "ADMIN",
-      },
-      where: {
-        id: createdUserResponse.body.id,
-      },
-    });
+    user_id = createdUserResponse.body.id;
 
     const sessionResponse = await request(app)
       .post("/sessions")
@@ -111,7 +106,7 @@ describe("UsersController", () => {
     expect(updatedUserResponse.body.name).toBe("Updated Admin User");
   });
 
-  it("should throw a authorization error if user do not have permissions", async () => {
+  it("should throw a authorization error if user do not have permissions to edit an user", async () => {
     const createdUserResponse = await request(app)
       .post("/users")
       .send({
@@ -128,8 +123,8 @@ describe("UsersController", () => {
         password: "123456",
       });
 
-    createdUserIds.push(createdUserResponse.body.id);
-    createdUserIds.push(secondUser.body.id);
+    user_id = createdUserResponse.body.id;
+    second_user_id = secondUser.body.id;
 
     const sessionResponse = await request(app)
       .post("/sessions")
@@ -147,5 +142,49 @@ describe("UsersController", () => {
 
     expect(updatedUserResponse.status).toBe(401);
     expect(updatedUserResponse.body.message).toBe("Usuário não autorizado");
+  });
+
+  it("should throw an error if user with same email already exists in editUser", async () => {
+    const createdUserAdminResponse = await request(app)
+      .post("/users")
+      .send({
+        name: "Admin User",
+        email: `admin${TEST_EMAIL_SUFFIX}`,
+        password: "123456",
+        role: "ADMIN",
+      });
+
+    user_id = createdUserAdminResponse.body.id;
+
+    const createdUserResponse = await request(app)
+      .post("/users")
+      .send({
+        name: "User",
+        email: `user${TEST_EMAIL_SUFFIX}`,
+        password: "123456",
+        role: "ADMIN",
+      });
+
+    second_user_id = createdUserResponse.body.id;
+
+    const sessionResponse = await request(app)
+      .post("/sessions")
+      .send({
+        email: `admin${TEST_EMAIL_SUFFIX}`,
+        password: "123456",
+      });
+
+    const updatedUserResponse = await request(app)
+      .put(`/users/${createdUserAdminResponse.body.id}`)
+      .send({
+        name: "Updated Admin User",
+        email: `user${TEST_EMAIL_SUFFIX}`,
+      })
+      .auth(sessionResponse.body.token, { type: "bearer" });
+
+    expect(updatedUserResponse.status).toBe(400);
+    expect(updatedUserResponse.body.message).toBe(
+      "Já existe um usuário cadastrado com esse e-mail",
+    );
   });
 });
