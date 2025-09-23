@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from "express";
 function verifyUserAuthorization(role: UserRole[]) {
   return (request: Request, _: Response, next: NextFunction) => {
     if (!request.user || !role.includes(request.user.role)) {
-      throw new AppError("Unauthorized", 401);
+      throw new AppError("Usuário não autorizado", 401);
     }
 
     return next();

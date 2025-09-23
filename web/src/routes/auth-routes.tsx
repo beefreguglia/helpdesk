@@ -6,14 +6,14 @@ import { NotFound } from "../pages/not-found";
 import { AuthLayout } from "../layout/auth-layout";
 
 export function AuthRoutes() {
-	return (
-		<Routes>
-			<Route path="/" element={<AuthLayout />}>
-				<Route path="/" element={<SignIn />} />
-				<Route path="/signup" element={<SignUp />} />
-			</Route>
+  return (
+    <Routes>
+      <Route path="/" element={<AuthLayout />}>
+        <Route path="/" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Route>
 
-			<Route path="*" element={<NotFound />} />
-		</Routes>
-	);
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 }

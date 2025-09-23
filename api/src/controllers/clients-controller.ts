@@ -79,7 +79,7 @@ class ClientsController {
       },
     });
 
-    response.status(201).json();
+    response.status(204).json();
   }
 
   async delete(request: Request, response: Response) {
@@ -91,7 +91,7 @@ class ClientsController {
 
     if (request.user?.role === "CLIENT") {
       if (request.user.id !== id) {
-        throw new AppError("Cliente só pode deletar a própria conta");
+        throw new AppError("Usuário não autorizado", 401);
       }
     }
 
@@ -101,7 +101,7 @@ class ClientsController {
       },
     });
 
-    response.status(200).json();
+    response.status(204).json();
   }
 }
 

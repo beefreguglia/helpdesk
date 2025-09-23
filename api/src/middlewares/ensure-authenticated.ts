@@ -17,7 +17,7 @@ function ensureAuthenticated(
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
-      throw new AppError("JWT token not found", 401);
+      throw new AppError("Token JWT não encontrado", 401);
     }
 
     const [, token] = authHeader.split(" ");
@@ -34,7 +34,7 @@ function ensureAuthenticated(
 
     return next();
   } catch (_) {
-    throw new AppError("Invalid JWT token", 401);
+    throw new AppError("Token JWT invalido", 401);
   }
 }
 
