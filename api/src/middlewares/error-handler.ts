@@ -1,24 +1,25 @@
-import { AppError } from "@/utils/AppError";
 import type { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
 
+import { AppError } from "@/utils/AppError";
+
 export const errorHandling: ErrorRequestHandler = (error, _, response, __) => {
-  if (error instanceof AppError) {
-    response.status(error.statusCode).json({
-      message: error.message,
-    });
+	if (error instanceof AppError) {
+		response.status(error.statusCode).json({
+			message: error.message,
+		});
 
-    return;
-  }
+		return;
+	}
 
-  if (error instanceof ZodError) {
-    response.status(400).json({
-      message: "Erro de validação",
-      issues: error.format(),
-    });
+	if (error instanceof ZodError) {
+		response.status(400).json({
+			message: "Erro de validação",
+			issues: error.format(),
+		});
 
-    return;
-  }
+		return;
+	}
 
-  response.status(500).json({ message: error.message });
+	response.status(500).json({ message: error.message });
 };

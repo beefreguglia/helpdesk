@@ -11,10 +11,10 @@ const uploadsController = new UploadsController();
 const upload = multer(uploadConfig.MULTER);
 
 uploadsRoutes.post(
-  "/",
-  verifyUserAuthorization(["CLIENT", "TECHNICIAN", "ADMIN"]),
-  upload.single("file"),
-  uploadsController.create,
+	"/",
+	verifyUserAuthorization(["CLIENT", "TECHNICIAN", "ADMIN"]),
+	upload.single("file"),
+	uploadsController.create,
 );
 
 export { uploadsRoutes };

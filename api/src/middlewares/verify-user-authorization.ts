@@ -1,15 +1,16 @@
+import type { UserRole } from "@prisma/client";
+import type { NextFunction, Request, Response } from "express";
+
 import { AppError } from "@/utils/AppError";
-import { UserRole } from "@prisma/client";
-import { Request, Response, NextFunction } from "express";
 
 function verifyUserAuthorization(role: UserRole[]) {
-  return (request: Request, _: Response, next: NextFunction) => {
-    if (!request.user || !role.includes(request.user.role)) {
-      throw new AppError("Usuário não autorizado", 401);
-    }
+	return (request: Request, _: Response, next: NextFunction) => {
+		if (!request.user || !role.includes(request.user.role)) {
+			throw new AppError("Usuário não autorizado", 401);
+		}
 
-    return next();
-  };
+		return next();
+	};
 }
 
 export { verifyUserAuthorization };

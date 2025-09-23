@@ -1,11 +1,11 @@
 import "express-async-errors";
+
 import cors from "cors";
 import express from "express";
 
+import uploadConfig from "@/configs/upload";
 import { errorHandling } from "./middlewares/error-handler";
 import { routes } from "./routes";
-
-import uploadConfig from "@/configs/upload";
 
 const app = express();
 app.use(cors());
