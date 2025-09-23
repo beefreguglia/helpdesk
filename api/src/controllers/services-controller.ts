@@ -11,14 +11,14 @@ class ServicesController {
 
     const { price, title } = bodySchema.parse(request.body);
 
-    await prisma.service.create({
+    const service = await prisma.service.create({
       data: {
         price,
         title,
       },
     });
 
-    response.status(201).json();
+    response.status(201).json({ service });
   }
 
   async index(_: Request, response: Response) {

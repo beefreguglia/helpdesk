@@ -10,18 +10,19 @@ describe("Clients Controller", () => {
   afterEach(async () => {
     if (user1_id) {
       await prisma.user.delete({ where: { id: user1_id } });
-      user1_id = undefined;
     }
 
     if (user2_id) {
       await prisma.user.delete({ where: { id: user2_id } });
-      user2_id = undefined;
     }
 
     if (user3_id) {
       await prisma.user.delete({ where: { id: user3_id } });
-      user3_id = undefined;
     }
+
+    user1_id = undefined;
+    user2_id = undefined;
+    user3_id = undefined;
   });
 
   it("should be able to list clients", async () => {
@@ -61,7 +62,7 @@ describe("Clients Controller", () => {
     expect(response.body.clients[0].name).toBe("User Two");
   });
 
-  it("shold be able to show a client", async () => {
+  it("should be able to show a client", async () => {
     const user1 = await request(app).post("/users").send({
       email: "user1@example.com",
       name: "User One",
@@ -91,7 +92,7 @@ describe("Clients Controller", () => {
     expect(response.body.email).toBe("user1@example.com");
   });
 
-  it("shold be able to update a client", async () => {
+  it("should be able to update a client", async () => {
     const user1 = await request(app).post("/users").send({
       email: "user1@example.com",
       name: "User One",
@@ -127,5 +128,68 @@ describe("Clients Controller", () => {
     expect(response.status).toBe(204);
     expect(updatedUser.body.name).toBe("Updated User One");
     expect(updatedUser.body.email).toBe("updateduser1@example.com");
+  });
+
+  it("should be able to delete a client", async () => {
+    const user1 = await request(app).post("/users").send({
+      email: "user1@example.com",
+      name: "User One",
+      password: "123456",
+    });
+
+    const user2 = await request(app).post("/users").send({
+      email: "user2@example.com",
+      name: "User Two",
+      password: "123456",
+      role: "ADMIN",
+    });
+    user2_id = user2.body.id;
+
+    const sessionResponse = await request(app).post("/sessions").send({
+      email: `user2@example.com`,
+      password: "123456",
+    });
+
+    const response = await request(app)
+      .delete(`/clients/${user1.body.id}`)
+      .auth(sessionResponse.body.token, { type: "bearer" })
+      .send({
+        name: "Updated User One",
+        email: "updateduser1@example.com",
+      });
+
+    expect(response.status).toBe(204);
+  });
+
+  it("should throw an error if the client try delete other client", async () => {
+    const user1 = await request(app).post("/users").send({
+      email: "user1@example.com",
+      name: "User One",
+      password: "123456",
+    });
+    user1_id = user1.body.id;
+
+    const user2 = await request(app).post("/users").send({
+      email: "user2@example.com",
+      name: "User Two",
+      password: "123456",
+    });
+    user2_id = user2.body.id;
+
+    const sessionResponse = await request(app).post("/sessions").send({
+      email: `user2@example.com`,
+      password: "123456",
+    });
+
+    const response = await request(app)
+      .delete(`/clients/${user1.body.id}`)
+      .auth(sessionResponse.body.token, { type: "bearer" })
+      .send({
+        name: "Updated User One",
+        email: "updateduser1@example.com",
+      });
+
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe("Usuário não autorizado");
   });
 });
