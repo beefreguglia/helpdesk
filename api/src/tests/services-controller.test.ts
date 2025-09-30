@@ -111,134 +111,168 @@ describe("Services Controller", () => {
 		expect(response.body.message).toBe("Usuário não autorizado");
 	});
 
-	// it("should be able to show a client", async () => {
-	//   const user1 = await request(app).post("/users").send({
-	//     email: "user1@example.com",
-	//     name: "User One",
-	//     password: "123456",
-	//   });
-	//   user1_id = user1.body.id;
+	it("should be able to list all active services", async () => {
+		const user1 = await request(app).post("/users").send({
+			email: "user1@example.com",
+			name: "User One",
+			password: "123456",
+			role: "ADMIN",
+		});
+		user1_id = user1.body.id;
 
-	//   const user2 = await request(app).post("/users").send({
-	//     email: "user2@example.com",
-	//     name: "User Two",
-	//     password: "123456",
-	//     role: "ADMIN",
-	//   });
-	//   user2_id = user2.body.id;
+		const sessionResponse = await request(app).post("/sessions").send({
+			email: `user1@example.com`,
+			password: "123456",
+		});
 
-	//   const sessionResponse = await request(app).post("/sessions").send({
-	//     email: `user2@example.com`,
-	//     password: "123456",
-	//   });
+		const service1 = await request(app)
+			.post("/services")
+			.auth(sessionResponse.body.token, { type: "bearer" })
+			.send({ title: "Test service 1", price: 100.5 });
 
-	//   const response = await request(app)
-	//     .get(`/clients/${user1_id}`)
-	//     .auth(sessionResponse.body.token, { type: "bearer" });
+		service1_id = service1.body.service.id;
 
-	//   expect(response.status).toBe(200);
-	//   expect(response.body.name).toBe("User One");
-	//   expect(response.body.email).toBe("user1@example.com");
-	// });
+		const service2 = await request(app)
+			.post("/services")
+			.auth(sessionResponse.body.token, { type: "bearer" })
+			.send({ title: "Test service 2", price: 23.35 });
 
-	// it("should be able to update a client", async () => {
-	//   const user1 = await request(app).post("/users").send({
-	//     email: "user1@example.com",
-	//     name: "User One",
-	//     password: "123456",
-	//   });
-	//   user1_id = user1.body.id;
+		await prisma.service.update({
+			data: { isActive: false },
+			where: { id: service2.body.service.id },
+		});
+		service2_id = service2.body.service.id;
 
-	//   const user2 = await request(app).post("/users").send({
-	//     email: "user2@example.com",
-	//     name: "User Two",
-	//     password: "123456",
-	//     role: "ADMIN",
-	//   });
-	//   user2_id = user2.body.id;
+		const response = await request(app)
+			.get("/services/active")
+			.auth(sessionResponse.body.token, { type: "bearer" });
 
-	//   const sessionResponse = await request(app).post("/sessions").send({
-	//     email: `user2@example.com`,
-	//     password: "123456",
-	//   });
+		expect(response.status).toBe(200);
+		expect(response.body.services).toHaveLength(1);
+		expect(response.body.services[0].title).toBe("Test service 1");
+	});
 
-	//   const response = await request(app)
-	//     .put(`/clients/${user1_id}`)
-	//     .auth(sessionResponse.body.token, { type: "bearer" })
-	//     .send({
-	//       name: "Updated User One",
-	//       email: "updateduser1@example.com",
-	//     });
+	it("should be able to show a service by id", async () => {
+		const user1 = await request(app).post("/users").send({
+			email: "user1@example.com",
+			name: "User One",
+			password: "123456",
+			role: "ADMIN",
+		});
+		user1_id = user1.body.id;
 
-	//   const updatedUser = await request(app)
-	//     .get(`/clients/${user1_id}`)
-	//     .auth(sessionResponse.body.token, { type: "bearer" });
+		const sessionResponse = await request(app).post("/sessions").send({
+			email: `user1@example.com`,
+			password: "123456",
+		});
 
-	//   expect(response.status).toBe(204);
-	//   expect(updatedUser.body.name).toBe("Updated User One");
-	//   expect(updatedUser.body.email).toBe("updateduser1@example.com");
-	// });
+		const service1 = await request(app)
+			.post("/services")
+			.auth(sessionResponse.body.token, { type: "bearer" })
+			.send({ title: "Test service 1", price: 100.5 });
 
-	// it("should be able to delete a client", async () => {
-	//   const user1 = await request(app).post("/users").send({
-	//     email: "user1@example.com",
-	//     name: "User One",
-	//     password: "123456",
-	//   });
+		service1_id = service1.body.service.id;
 
-	//   const user2 = await request(app).post("/users").send({
-	//     email: "user2@example.com",
-	//     name: "User Two",
-	//     password: "123456",
-	//     role: "ADMIN",
-	//   });
-	//   user2_id = user2.body.id;
+		const response = await request(app)
+			.get(`/services/${service1.body.service.id}`)
+			.auth(sessionResponse.body.token, { type: "bearer" });
 
-	//   const sessionResponse = await request(app).post("/sessions").send({
-	//     email: `user2@example.com`,
-	//     password: "123456",
-	//   });
+		expect(response.status).toBe(200);
+		expect(response.body.title).toBe("Test service 1");
+		expect(response.body.price).toEqual("100.5");
+	});
 
-	//   const response = await request(app)
-	//     .delete(`/clients/${user1.body.id}`)
-	//     .auth(sessionResponse.body.token, { type: "bearer" })
-	//     .send({
-	//       name: "Updated User One",
-	//       email: "updateduser1@example.com",
-	//     });
+	it("should be able to active a service", async () => {
+		const user1 = await request(app).post("/users").send({
+			email: "user1@example.com",
+			name: "User One",
+			password: "123456",
+			role: "ADMIN",
+		});
+		user1_id = user1.body.id;
 
-	//   expect(response.status).toBe(204);
-	// });
+		const sessionResponse = await request(app).post("/sessions").send({
+			email: `user1@example.com`,
+			password: "123456",
+		});
 
-	// it("should throw an error if the client try delete other client", async () => {
-	//   const user1 = await request(app).post("/users").send({
-	//     email: "user1@example.com",
-	//     name: "User One",
-	//     password: "123456",
-	//   });
-	//   user1_id = user1.body.id;
+		const service1 = await request(app)
+			.post("/services")
+			.auth(sessionResponse.body.token, { type: "bearer" })
+			.send({ title: "Test service 1", price: 100.5 });
 
-	//   const user2 = await request(app).post("/users").send({
-	//     email: "user2@example.com",
-	//     name: "User Two",
-	//     password: "123456",
-	//   });
-	//   user2_id = user2.body.id;
+		service1_id = service1.body.service.id;
 
-	//   const sessionResponse = await request(app).post("/sessions").send({
-	//     email: `user2@example.com`,
-	//     password: "123456",
-	//   });
+		await prisma.service.update({
+			where: { id: service1_id },
+			data: { isActive: false },
+		});
 
-	//   const response = await request(app)
-	//     .delete(`/clients/${user1.body.id}`)
-	//     .auth(sessionResponse.body.token, { type: "bearer" })
-	//     .send({
-	//       name: "Updated User One",
-	//       email: "updateduser1@example.com",
-	//     });
+		const response = await request(app)
+			.patch(`/services/${service1_id}/active`)
+			.auth(sessionResponse.body.token, { type: "bearer" });
 
-	//   expect(response.status).toBe(401);
-	//   expect(response.body.message).toBe("Usuário não autorizado");
-	// });
+		expect(response.status).toBe(200);
+		expect(response.body.service.isActive).toBe(true);
+	});
+
+	it("should be able to inactive a service", async () => {
+		const user1 = await request(app).post("/users").send({
+			email: "user1@example.com",
+			name: "User One",
+			password: "123456",
+			role: "ADMIN",
+		});
+		user1_id = user1.body.id;
+
+		const sessionResponse = await request(app).post("/sessions").send({
+			email: `user1@example.com`,
+			password: "123456",
+		});
+
+		const service1 = await request(app)
+			.post("/services")
+			.auth(sessionResponse.body.token, { type: "bearer" })
+			.send({ title: "Test service 1", price: 100.5 });
+
+		service1_id = service1.body.service.id;
+
+		const response = await request(app)
+			.patch(`/services/${service1_id}/inactive`)
+			.auth(sessionResponse.body.token, { type: "bearer" });
+
+		expect(response.status).toBe(200);
+		expect(response.body.service.isActive).toBe(false);
+	});
+
+	it("should be able to update a service", async () => {
+		const user1 = await request(app).post("/users").send({
+			email: "user1@example.com",
+			name: "User One",
+			password: "123456",
+			role: "ADMIN",
+		});
+		user1_id = user1.body.id;
+
+		const sessionResponse = await request(app).post("/sessions").send({
+			email: `user1@example.com`,
+			password: "123456",
+		});
+
+		const service1 = await request(app)
+			.post("/services")
+			.auth(sessionResponse.body.token, { type: "bearer" })
+			.send({ title: "Test service 1", price: 100.5 });
+
+		service1_id = service1.body.service.id;
+
+		const response = await request(app)
+			.put(`/services/${service1_id}`)
+			.auth(sessionResponse.body.token, { type: "bearer" })
+			.send({ title: "Updated service 1", price: 150.5 });
+
+		expect(response.status).toBe(200);
+		expect(response.body.service.title).toBe("Updated service 1");
+		expect(response.body.service.price).toBe("150.5");
+	});
 });

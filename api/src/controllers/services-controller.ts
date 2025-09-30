@@ -88,7 +88,7 @@ class ServicesController {
 
 		const { id } = paramsSchema.parse(request.params);
 
-		await prisma.service.update({
+		const service = await prisma.service.update({
 			where: {
 				id,
 			},
@@ -97,7 +97,7 @@ class ServicesController {
 			},
 		});
 
-		response.status(201).json();
+		response.status(200).json({ service });
 	}
 
 	async inactive(request: Request, response: Response) {
@@ -107,7 +107,7 @@ class ServicesController {
 
 		const { id } = paramsSchema.parse(request.params);
 
-		await prisma.service.update({
+		const service = await prisma.service.update({
 			where: {
 				id,
 			},
@@ -116,7 +116,7 @@ class ServicesController {
 			},
 		});
 
-		response.status(201).json();
+		response.status(200).json({ service });
 	}
 
 	async update(request: Request, response: Response) {
@@ -133,7 +133,7 @@ class ServicesController {
 
 		const { price, title } = bodySchema.parse(request.body);
 
-		await prisma.service.update({
+		const service = await prisma.service.update({
 			where: {
 				id,
 			},
@@ -143,7 +143,7 @@ class ServicesController {
 			},
 		});
 
-		response.status(200).json();
+		response.status(200).json({ service });
 	}
 }
 

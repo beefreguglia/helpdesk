@@ -20,7 +20,7 @@ servicesRoutes.get(
 
 servicesRoutes.get(
 	"/active",
-	verifyUserAuthorization(["CLIENT", "TECHNICIAN"]),
+	verifyUserAuthorization(["CLIENT", "TECHNICIAN", "ADMIN"]),
 	servicesController.activeIndex,
 );
 
