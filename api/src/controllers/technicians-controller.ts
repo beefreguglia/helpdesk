@@ -43,11 +43,11 @@ class TechniciansController {
 
 		const parsedAvailability = JSON.stringify(availability);
 
-		await prisma.technician.create({
+		const technician = await prisma.technician.create({
 			data: { userId: id, availability: parsedAvailability },
 		});
 
-		response.status(201).json();
+		response.status(201).json({ technician });
 	}
 
 	async index(_: Request, response: Response) {
@@ -131,26 +131,22 @@ class TechniciansController {
 
 		const { email, name, availability } = bodySchema.parse(request.body);
 
-		await prisma.user.update({
-			where: {
-				id,
-			},
-			data: {
-				email,
-				name,
-			},
-		});
-
 		const parsedAvailability = JSON.stringify(availability);
 
-		await prisma.technician.update({
+		const technician = await prisma.technician.update({
 			where: {
 				userId: id,
 			},
-			data: { availability: parsedAvailability },
+			data: {
+				availability: parsedAvailability,
+				user: { update: { email, name } },
+			},
+			include: {
+				user: true,
+			},
 		});
 
-		response.status(200).json();
+		response.status(200).json({ technician });
 	}
 }
 

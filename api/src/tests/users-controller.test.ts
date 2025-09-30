@@ -4,7 +4,7 @@ import { prisma } from "@/database/prisma";
 
 const TEST_EMAIL_SUFFIX = "@test.example.com";
 
-describe("UsersController", () => {
+describe("Users Controller", () => {
 	let user_id: string | undefined;
 	let second_user_id: string | undefined;
 

@@ -3,7 +3,7 @@ import request from "supertest";
 import { app } from "@/app";
 import { prisma } from "@/database/prisma";
 
-describe("SessionsController", () => {
+describe("Sessions Controller", () => {
 	let user_id: string;
 
 	afterAll(async () => {
